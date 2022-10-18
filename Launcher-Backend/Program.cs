@@ -32,7 +32,7 @@ namespace Launcher_Backend
             Console.ReadKey();
         }
 
-        void AcceptClients()
+        private void AcceptClients()
         {
             var listener = new TcpListener(IPAddress.Any, 23032);
             listener.Start();
@@ -44,10 +44,56 @@ namespace Launcher_Backend
             }
         }
 
-        void Clienthandle(TcpClient client)
+        private void Clienthandle(TcpClient client)
         {
-            CurrentClient = client.GetStream();
-            CurrentClient.writeString("testing");
+            var ns = client.GetStream();
+            var clientGuidBytes = ns.read(16);
+            Console.WriteLine("connecting to user with guid:" + clientGuidBytes.ToString());
+            string serverRequest = ns.readString();
+            Console.WriteLine(clientGuidBytes.ToString() + ": " + serverRequest);
+            Console.WriteLine(client.Client.RemoteEndPoint.ToString());
+            if (serverRequest == "WS4")
+            {
+                Console.WriteLine("sending WS4 package");
+                SendPackage(ns, "C:\\Users\\OneSmiLe\\Desktop\\Temp\\Rectangle 2.3.png");
+            }
+            else
+            {
+                //TODO
+            }
+        }
+
+        private void SendPackage(NetworkStream ns, string path)
+        {
+            var client = new TcpClient();
+            client.Connect(IPAddress.Any, 23032);
+            ns.WriteByte((byte)TransferCommands.Send);
+            bool confirmation = ns.readBool();
+            if (confirmation)
+            {
+                using (Stream source = File.OpenRead(path))
+                {
+                    byte[] buffer = new byte[2048];
+                    int bytesRead;
+                    int i = 0;
+                    while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        i++;
+                    }
+                    int percentage = i / 100;
+                    i = 0;
+                    int BarPers = 0;
+                    while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        i++;
+                        ns.Write(buffer, 0, bytesRead);
+                        if (i >= percentage)
+                        {
+                            BarPers++;
+                        }
+                    }
+                }
+            }
         }
     }
 }

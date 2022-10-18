@@ -30,29 +30,121 @@ namespace Launcher
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int port = 23032;
+            byte[] guid = thisClientId.ToByteArray();
+            int port = StartListener();
             string server = "localhost";
+
             client = new TcpClient(server, port);
             clientStream = client.GetStream();
-            var t = new Thread(ProcessRequest);
+            clientStream.write(guid);
+            clientStream.writeString("WS4-fabric");
+
+            var t = new Thread(processTransfer);
             t.IsBackground = true;
             t.Start();
         }
 
-        private void ProcessRequest()
+        private int StartListener()
         {
-
-            try
+            TcpListener listener;
+            int port;
+            while (true)
             {
-                while(true)
+                port = 23032;
+                try
                 {
-                    var cmd = clientStream.readString();
-                    Console.WriteLine(cmd);
+                    listener = new TcpListener(IPAddress.Any, port);
+                    listener.Start();
+
+                    break;
+                }
+                catch (Exception)
+                {
+                    //ignore
                 }
             }
-            catch (Exception)
+            var t = new Thread(transferFiles);
+            t.IsBackground = true;
+            t.Start(listener);
+            return port;
+        }
+
+        private void transferFiles(object o)
+        {
+            var listener = (TcpListener)o;
+            while (true)
             {
-                Console.WriteLine("backend error ocured");
+                var client = listener.AcceptTcpClient();
+                var t = new Thread(processTransfer);
+                t.IsBackground = true;
+                t.Start(client);
+            }
+        }
+
+        private void processTransfer(object o)
+        {
+            var client = (TcpClient)o;
+            var ns = client.GetStream();
+            var command = (TransferCommands)ns.ReadByte();
+            if (command == TransferCommands.Ping)
+            {
+                ns.write(thisClientId.ToByteArray());
+            }
+            else if (command == TransferCommands.Send)
+            {
+                int fileCount = ns.readInt();
+                long[] lengthArray = new long[fileCount];
+                string[] NameArray = new string[fileCount];
+                string fileDescriptions = "";
+                for (int i = 0; i < fileCount; i++)
+                {
+                    lengthArray[i] = ns.readLong();
+                    NameArray[i] = ns.readString();
+                    fileDescriptions = $"{NameArray[i]}, {lengthArray[i]} байт\n";
+                }
+                string question = $"вы желаете принять {fileCount} файлов от {client.Client.RemoteEndPoint}: \n" + fileDescriptions;
+                bool confirmation = MessageBox.Show(question, "принять", MessageBoxButtons.YesNoCancel) == DialogResult.Yes;
+                if (confirmation)
+                {
+                    string folderPath = "";
+                    this.Invoke(new Action(() => {
+                        using (var folderDialog = new FolderBrowserDialog())
+                        {
+                            folderDialog.Description = "в какую папку вы желаете сожранить файлы?";
+                            confirmation = folderDialog.ShowDialog() == DialogResult.OK;
+                            folderPath = folderDialog.SelectedPath;
+                        }
+                    }));
+                    for (int i = 0; i < 0; i++)
+                    {
+                        string path = Path.Combine(folderPath, NameArray[i]);
+                        if (File.Exists(path))
+                        {
+                            confirmation = false;
+                            MessageBox.Show($"файл уже существует: {path}");
+                            break;
+                        }
+                    }
+                    ns.writeBool(confirmation);
+                    if (confirmation)
+                    {
+                        for (int i = 0; i < fileCount; i++)
+                        {
+                            long left = lengthArray[i];
+                            string path = Path.Combine(folderPath, NameArray[i]);
+                            using (Stream f = File.OpenWrite(path))
+                            {
+                                while (left > 0)
+                                {
+                                    int cnt = (int)Math.Min(left, 2048);
+                                    byte[] bytes = ns.read(cnt);
+                                    f.Write(bytes, 0, bytes.Length);
+                                    left -= cnt;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
