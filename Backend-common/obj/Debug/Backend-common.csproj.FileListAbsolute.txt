@@ -1,0 +1,6 @@
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\bin\Debug\Backend-common.dll
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\bin\Debug\Backend-common.pdb
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\Backend-common.csproj.AssemblyReference.cache
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\Backend-common.csproj.CoreCompileInputs.cache
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\Backend-common.dll
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\Backend-common.pdb

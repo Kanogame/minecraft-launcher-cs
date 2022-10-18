@@ -1,0 +1,11 @@
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\obj\Debug\Launcher-Backend.csproj.AssemblyReference.cache
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\obj\Debug\Launcher-Backend.csproj.SuggestedBindingRedirects.cache
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\obj\Debug\Launcher-Backend.csproj.CoreCompileInputs.cache
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\bin\Debug\Launcher-Backend.exe.config
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\bin\Debug\Launcher-Backend.exe
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\bin\Debug\Launcher-Backend.pdb
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\bin\Debug\Backend-common.dll
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\bin\Debug\Backend-common.pdb
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\obj\Debug\Launcher-Backend.csproj.CopyComplete
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\obj\Debug\Launcher-Backend.exe
+C:\Users\OneSmiLe\source\repos\Launcher\Launcher-Backend\obj\Debug\Launcher-Backend.pdb
