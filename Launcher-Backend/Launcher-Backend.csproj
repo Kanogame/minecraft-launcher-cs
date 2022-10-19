@@ -46,6 +46,9 @@
     <Compile Include="computer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskAddComputer.cs" />
+    <Compile Include="TaskRemoveComputer.cs" />
+    <Compile Include="TaskToClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

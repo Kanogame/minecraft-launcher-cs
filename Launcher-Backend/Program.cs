@@ -68,6 +68,8 @@ namespace Launcher_Backend
             var client = new TcpClient();
             client.Connect(IPAddress.Any, 23032);
             ns.WriteByte((byte)TransferCommands.Send);
+            ns.writeLong(new FileInfo(path).Length);
+            ns.writeString(Path.GetFileName(path));
             bool confirmation = ns.readBool();
             if (confirmation)
             {
@@ -78,19 +80,7 @@ namespace Launcher_Backend
                     int i = 0;
                     while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        i++;
-                    }
-                    int percentage = i / 100;
-                    i = 0;
-                    int BarPers = 0;
-                    while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
-                    {
-                        i++;
                         ns.Write(buffer, 0, bytesRead);
-                        if (i >= percentage)
-                        {
-                            BarPers++;
-                        }
                     }
                 }
             }

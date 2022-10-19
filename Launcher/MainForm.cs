@@ -88,64 +88,26 @@ namespace Launcher
             var command = (TransferCommands)ns.ReadByte();
             if (command == TransferCommands.Ping)
             {
-                ns.write(thisClientId.ToByteArray());
+                Console.WriteLine("ping");
             }
             else if (command == TransferCommands.Send)
             {
-                int fileCount = ns.readInt();
-                long[] lengthArray = new long[fileCount];
-                string[] NameArray = new string[fileCount];
-                string fileDescriptions = "";
-                for (int i = 0; i < fileCount; i++)
+                ns.writeBool(true);
+                long length = ns.readLong();
+                string name = ns.readString();
+                string path = Path.Combine("C://Users//OneSmiLe//Pictures", name);
+                using (Stream f = File.OpenWrite(path))
                 {
-                    lengthArray[i] = ns.readLong();
-                    NameArray[i] = ns.readString();
-                    fileDescriptions = $"{NameArray[i]}, {lengthArray[i]} байт\n";
-                }
-                string question = $"вы желаете принять {fileCount} файлов от {client.Client.RemoteEndPoint}: \n" + fileDescriptions;
-                bool confirmation = MessageBox.Show(question, "принять", MessageBoxButtons.YesNoCancel) == DialogResult.Yes;
-                if (confirmation)
-                {
-                    string folderPath = "";
-                    this.Invoke(new Action(() => {
-                        using (var folderDialog = new FolderBrowserDialog())
-                        {
-                            folderDialog.Description = "в какую папку вы желаете сожранить файлы?";
-                            confirmation = folderDialog.ShowDialog() == DialogResult.OK;
-                            folderPath = folderDialog.SelectedPath;
-                        }
-                    }));
-                    for (int i = 0; i < 0; i++)
+                    while (length > 0)
                     {
-                        string path = Path.Combine(folderPath, NameArray[i]);
-                        if (File.Exists(path))
-                        {
-                            confirmation = false;
-                            MessageBox.Show($"файл уже существует: {path}");
-                            break;
-                        }
-                    }
-                    ns.writeBool(confirmation);
-                    if (confirmation)
-                    {
-                        for (int i = 0; i < fileCount; i++)
-                        {
-                            long left = lengthArray[i];
-                            string path = Path.Combine(folderPath, NameArray[i]);
-                            using (Stream f = File.OpenWrite(path))
-                            {
-                                while (left > 0)
-                                {
-                                    int cnt = (int)Math.Min(left, 2048);
-                                    byte[] bytes = ns.read(cnt);
-                                    f.Write(bytes, 0, bytes.Length);
-                                    left -= cnt;
-                                }
-                            }
-                        }
+                        int cnt = (int)Math.Min(length, 2048);
+                        byte[] bytes = ns.read(cnt);
+                        f.Write(bytes, 0, bytes.Length);
+                        length -= cnt;
                     }
                 }
             }
+            MessageBox.Show("DONE!");
         }
     }
 }
