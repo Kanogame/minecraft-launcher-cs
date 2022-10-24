@@ -16,7 +16,6 @@ namespace Launcher_Backend
 {
     internal class Program
     {
-        NetworkStream CurrentClient;
 
         static void Main(string[] args)
         {
@@ -40,7 +39,7 @@ namespace Launcher_Backend
             {
                 var client = listener.AcceptTcpClient();
                 Clienthandle(client);
-                Console.WriteLine($"sending testing to {client.Client.AddressFamily} with port 23032");
+                Console.WriteLine($"sending testing to {client.Client.RemoteEndPoint} with port 23032");
             }
         }
 
@@ -52,7 +51,7 @@ namespace Launcher_Backend
             string serverRequest = ns.readString();
             Console.WriteLine(clientGuidBytes.ToString() + ": " + serverRequest);
             Console.WriteLine(client.Client.RemoteEndPoint.ToString());
-            if (serverRequest == "WS4")
+            if (serverRequest == "WS4-fabric")
             {
                 Console.WriteLine("sending WS4 package");
                 SendPackage(ns, "C:\\Users\\OneSmiLe\\Desktop\\Temp\\Rectangle 2.3.png");
@@ -65,8 +64,6 @@ namespace Launcher_Backend
 
         private void SendPackage(NetworkStream ns, string path)
         {
-            var client = new TcpClient();
-            client.Connect(IPAddress.Any, 23032);
             ns.WriteByte((byte)TransferCommands.Send);
             ns.writeLong(new FileInfo(path).Length);
             ns.writeString(Path.GetFileName(path));
