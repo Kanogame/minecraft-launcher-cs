@@ -54,7 +54,7 @@ namespace Launcher_Backend
             if (serverRequest == "WS4-fabric")
             {
                 Console.WriteLine("sending WS4 package");
-                SendPackage(ns, "C:\\Users\\OneSmiLe\\Desktop\\Temp\\Rectangle 2.3.png");
+                SendPackage(ns, "C:\\Users\\OneSmiLe\\Desktop\\Temp\\LoliLand.zip");
             }
             else
             {

@@ -12,11 +12,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO.Compression;
 
 namespace Launcher
 {
     public partial class MainForm : Form
     {
+        string defaultTempPath = "C:\\Users\\OneSmiLe\\Desktop\\Temp\\Resenved";
+        string defaultGamePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft", "instances");
+        string instanceName = "WS4-fabric";
 
         TcpClient client;
         NetworkStream clientStream;
@@ -37,50 +41,13 @@ namespace Launcher
             client = new TcpClient(server, port);
             clientStream = client.GetStream();
             clientStream.write(guid);
-            clientStream.writeString("WS4-fabric");
+            clientStream.writeString(instanceName);
 
             var t = new Thread(processTransfer);
             t.IsBackground = true;
             t.Start(clientStream);
         }
-           /*
-        private int StartListener(string server)
-        {
-            TcpListener listener;
-            int port;
-            while (true)
-            {
-                port = 23032;
-                try
-                {
-                    listener = new TcpListener(IPAddress.Any, port);
-                    listener.Start();
 
-                    break;
-                }
-                catch (Exception)
-                {
-                    //ignore
-                }
-            }
-            var t = new Thread(transferFiles);
-            t.IsBackground = true;
-            t.Start(listener);
-            return port;
-        }
-        
-        private void transferFiles(object o)
-        {
-            var listener = (TcpListener)o;
-            while (true)
-            {
-                var client = listener.AcceptTcpClient();
-                var t = new Thread(processTransfer);
-                t.IsBackground = true;
-                t.Start(client);
-            }
-        }
-           */
         private void processTransfer(object o)
         {
             var ns = (NetworkStream)o;
@@ -107,6 +74,29 @@ namespace Launcher
                     }
                 }
                 MessageBox.Show("DONE!");
+                string tempPath = Path.Combine(defaultTempPath, name);
+                UnZip(tempPath);
+                TempClearing(tempPath);
+            }
+        }
+
+        private void UnZip(string tempPath)
+        {
+            try
+            {
+                ZipFile.ExtractToDirectory(tempPath, Path.Combine(defaultGamePath, instanceName));
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("при распаковке что-то пошло не так");
+            }
+        }
+
+        private void TempClearing(string tempPath)
+        {
+            if (File.Exists(tempPath))
+            {
+                File.Delete(tempPath);
             }
         }
     }
