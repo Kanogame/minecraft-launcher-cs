@@ -74,7 +74,6 @@ namespace Launcher_Backend
                 {
                     byte[] buffer = new byte[2048];
                     int bytesRead;
-                    int i = 0;
                     while ((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         ns.Write(buffer, 0, bytesRead);

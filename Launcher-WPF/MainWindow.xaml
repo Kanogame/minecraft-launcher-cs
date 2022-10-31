@@ -5,8 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Launcher_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Height="500" Width="900"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Border Background="#272537"
+            CornerRadius="16">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="74*">
+
+                </ColumnDefinition>
+                <ColumnDefinition Width="285*">
+                </ColumnDefinition>
+                <ColumnDefinition Width="541*">
+
+                </ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="14*">
+
+                </RowDefinition>
+                <RowDefinition Height="111*">
+
+                </RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Button Style="{StaticResource Logo}"
+                    Width="30"
+                    Height="30"/>
+
+            <TextBlock Text="KanoLauncher"
+                       Grid.Column="1"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Foreground="White"
+                       FontSize="20"/>
+
+            <StackPanel Grid.Row="1">
+                <Button Style="{StaticResource MenuButtonTheme}"
+                    Width="30"
+                    Height="30"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>

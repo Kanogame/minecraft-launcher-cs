@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher-Backend", "Launche
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendCommon", "Backend-common\BackendCommon.csproj", "{933AD176-90E3-4553-AF47-4C52C1710E11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher-WPF", "Launcher-WPF\Launcher-WPF.csproj", "{D1FC8D50-3F34-47D9-9CEE-A5B73404FB4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{933AD176-90E3-4553-AF47-4C52C1710E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{933AD176-90E3-4553-AF47-4C52C1710E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{933AD176-90E3-4553-AF47-4C52C1710E11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1FC8D50-3F34-47D9-9CEE-A5B73404FB4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1FC8D50-3F34-47D9-9CEE-A5B73404FB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1FC8D50-3F34-47D9-9CEE-A5B73404FB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1FC8D50-3F34-47D9-9CEE-A5B73404FB4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
