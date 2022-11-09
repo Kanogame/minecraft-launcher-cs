@@ -28,26 +28,30 @@ namespace Launcher_WPF
 
         private void LoadServerList()
         {
-            int width = 10;
-            int height = 20;
+            int height = 100;
+
+
             for (int i = 0; i < 3; i++)
             {
+                LinearGradientBrush GradientBrush = new LinearGradientBrush();
+                GradientBrush.StartPoint = new Point(0, 0);
+                GradientBrush.EndPoint = new Point(1, 2);
                 Rectangle rec = new Rectangle()
                 {
-                    Width = width,
+                    Width = ServersCol.Width.Value - 20,
                     Height = height,
                     Fill = Brushes.Green,
-                    Stroke = Brushes.Red,
-                    StrokeThickness = 2,
+                    RadiusX = 16,
+                    RadiusY = 16,
                 };
-
-                G
+                ServerList.Children.Add(rec);
+                ServerList.HorizontalAlignment = HorizontalAlignment.Center;
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Application.Current.Shutdown();
         }
     }
 }

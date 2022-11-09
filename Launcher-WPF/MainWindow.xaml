@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Height="500" Width="900"
         WindowStyle="None"
-        ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True">
 
@@ -18,7 +17,8 @@
                 <ColumnDefinition Width="74*">
 
                 </ColumnDefinition>
-                <ColumnDefinition Width="285*">
+                <ColumnDefinition Width="285*"  x:Name="ServersCol">
+                    
                 </ColumnDefinition>
                 <ColumnDefinition Width="541*">
 
@@ -81,6 +81,14 @@
                     <Image Source="Images/Exit.png"
                            Width="50"/>
                 </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Grid.Column="1" x:Name="ServerList">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Setter Property="Margin" Value="0,10,0,0"/>
+                    </Style>
+                </StackPanel.Resources>
             </StackPanel>
         </Grid>
     </Border>
