@@ -23,6 +23,31 @@ namespace Launcher_WPF
         public MainWindow()
         {
             InitializeComponent();
+            LoadServerList();
+        }
+
+        private void LoadServerList()
+        {
+            int width = 10;
+            int height = 20;
+            for (int i = 0; i < 3; i++)
+            {
+                Rectangle rec = new Rectangle()
+                {
+                    Width = width,
+                    Height = height,
+                    Fill = Brushes.Green,
+                    Stroke = Brushes.Red,
+                    StrokeThickness = 2,
+                };
+
+                G
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

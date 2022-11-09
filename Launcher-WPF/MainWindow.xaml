@@ -26,29 +26,61 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="14*">
+                <RowDefinition Height="57*">
 
                 </RowDefinition>
-                <RowDefinition Height="111*">
+                <RowDefinition Height="443*">
 
                 </RowDefinition>
             </Grid.RowDefinitions>
 
-            <Button Style="{StaticResource Logo}"
-                    Width="30"
-                    Height="30"/>
+            <Button Style="{StaticResource Logo}" Margin="22,14,22,13"/>
 
             <TextBlock Text="KanoLauncher"
                        Grid.Column="1"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
                        Foreground="White"
-                       FontSize="20"/>
+                       FontSize="20" Height="27" Width="125"/>
 
             <StackPanel Grid.Row="1">
-                <Button Style="{StaticResource MenuButtonTheme}"
-                    Width="30"
-                    Height="30"/>
+
+                <Button
+                    Width="63"
+                    Height="63"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="Button_Click">
+                    <Image Source="Images/Game.png"
+                           Width="50"/>
+                </Button>
+                <Button
+                    Width="63"
+                    Height="63"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="Button_Click">
+                    <Image Source="Images/User.png"
+                           Width="50"/>
+                </Button>
+                <Button
+                    Width="63"
+                    Height="63"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="Button_Click">
+                    <Image Source="Images/Folder.png"
+                           Width="50"/>
+                </Button>
+                <Button
+                    Width="63"
+                    Height="63"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="Button_Click">
+                    <Image Source="Images/Exit.png"
+                           Width="50"/>
+                </Button>
             </StackPanel>
         </Grid>
     </Border>
