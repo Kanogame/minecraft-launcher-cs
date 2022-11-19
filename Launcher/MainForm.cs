@@ -25,11 +25,13 @@ namespace Launcher
         TcpClient client;
         NetworkStream clientStream;
         Guid thisClientId;
+        goConn GoConn;
 
         public MainForm()
         {
             InitializeComponent();
             thisClientId = Guid.NewGuid();
+            GoConn = new goConn("127.0.0.1", 8081);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -98,6 +100,11 @@ namespace Launcher
             {
                 File.Delete(tempPath);
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            GoConn.Listen();
         }
     }
 }

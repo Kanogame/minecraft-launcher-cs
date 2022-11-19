@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="computer.cs" />
+    <Compile Include="goConn.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
