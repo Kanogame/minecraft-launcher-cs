@@ -37,10 +37,8 @@ namespace Launcher
         private void button1_Click(object sender, EventArgs e)
         {
             byte[] guid = thisClientId.ToByteArray();
-            string server = "127.0.0.1";
-            int port = 23032;
 
-            client = new TcpClient(server, port);
+            client = GoConn.GetBackIp();
             clientStream = client.GetStream();
             clientStream.write(guid);
             clientStream.writeString(instanceName);
@@ -104,7 +102,7 @@ namespace Launcher
 
         private void button2_Click(object sender, EventArgs e)
         {
-            GoConn.Listen();
+            GoConn.GetBackIp();
         }
     }
 }

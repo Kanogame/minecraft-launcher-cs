@@ -1,12 +1,19 @@
 package main
 
 import (
+	"bufio"
 	"encoding/binary"
 	"fmt"
 	"net"
+	"os"
+	"strconv"
 )
 
 func main() {
+	HandleServer()
+}
+
+func HandleServer() {
 	fmt.Println("Launching server...")
 
 	ln, _ := net.Listen("tcp", "localhost:8081")
@@ -18,12 +25,66 @@ func main() {
 		if err != nil {
 			fmt.Println("Error accepting: ", err.Error())
 		}
-
-		str1 := readString(conn)
-		fmt.Println(str1)
+		request := readString(conn)
+		fmt.Println(request)
+		if request == "getbackip" {
+			ReadNearestConf(conn)
+		}
 
 		conn.Close()
 	}
+}
+
+func ReadNearestConf(conn net.Conn) {
+	file, err := os.Open("./config.txt")
+	if err != nil {
+		panic(err)
+	}
+
+	scanner := bufio.NewScanner(file)
+
+	i := 0
+	var strRead = make([]string, 2)
+	for scanner.Scan() {
+		strRead[i] = scanner.Text()
+		i++
+	}
+	writeString(conn, strRead[0])
+
+	portI, err := strconv.Atoi(strRead[1])
+	if err != nil {
+		panic(err)
+	}
+
+	writeInt(conn, portI)
+	/*
+		port := scanner.Text()
+		portI, err := strconv.Atoi(port)
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println(portI)
+
+		writeInt(conn, portI)
+		/*
+			count := scanner.Text()
+			countI, err := strconv.Atoi(count)
+			if err != nil {
+				panic(err)
+			}
+			writeInt(conn, countI)
+			for i := 0; i < countI; i++ {
+				serverName := scanner.Text()
+				writeString(conn, serverName)
+				serverIP := scanner.Text()
+				writeString(conn, serverIP)
+				serverPort := scanner.Text()
+				writeString(conn, serverPort)
+				serverDesc := scanner.Text()
+				writeString(conn, serverDesc)
+			}
+	*/
 }
 
 func writeString(conn net.Conn, val string) {

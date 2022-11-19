@@ -27,8 +27,20 @@ namespace Launcher
         {
             var goServ = new TcpClient(ip, port);
             goStream = goServ.GetStream();
-            goStream.writeString("Hello world");
+            goStream.writeString("getlatestdata");
             //ReadGo(goStream);
+        }
+
+        public TcpClient GetBackIp()
+        {
+            var goServ = new TcpClient(ip, port);
+            goStream = goServ.GetStream();
+            goStream.writeString("getbackip");
+            var bip = goStream.readString();
+            MessageBox.Show(bip);
+            var bport = goStream.readInt();
+            MessageBox.Show(bport.ToString());
+            return new TcpClient(bip, bport);
         }
 
         private void ReadGo(NetworkStream goStream)
