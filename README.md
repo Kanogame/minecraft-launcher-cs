@@ -1,5 +1,12 @@
-# Minecraft Launcher Csharp
-Simple minecraft launcher solution for your modpacks and servers
-//launcher pictures//
+# Minecraft server infustructute with custom minecraft launcher
+Complex infustructute builded around Go backend For website hosting and c# file server
 
-# Uses CmlLib.Core
+# Launcher 
+C# Launcher WPF launcher 
+(in future)
+
+Uses CmlLib.Core
+//link
+
+Uses minestat
+//link
