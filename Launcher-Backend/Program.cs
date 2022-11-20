@@ -16,6 +16,8 @@ namespace Launcher_Backend
 {
     internal class Program
     {
+        Logging log;
+        private int Port = 23032;
 
         static void Main(string[] args)
         {
@@ -25,6 +27,8 @@ namespace Launcher_Backend
 
         void main()
         {
+            log = new Logging();
+            log.OpenFileWrite();
             var acceptClientThreads = new Thread(AcceptClients);
             acceptClientThreads.IsBackground = true;
             acceptClientThreads.Start();
@@ -33,13 +37,14 @@ namespace Launcher_Backend
 
         private void AcceptClients()
         {
-            var listener = new TcpListener(IPAddress.Any, 23032);
+            var listener = new TcpListener(IPAddress.Any, Port);
             listener.Start();
             while (true)
             {
                 var client = listener.AcceptTcpClient();
+                log.FileWrite($"sending files to {client.Client.RemoteEndPoint} from port {Port}");
+                Console.WriteLine($"sending files to {client.Client.RemoteEndPoint} from port {Port}");
                 Clienthandle(client);
-                Console.WriteLine($"sending testing to {client.Client.RemoteEndPoint} with port 23032");
             }
         }
 
@@ -48,12 +53,15 @@ namespace Launcher_Backend
             var ns = client.GetStream();
             var clientGuidBytes = ns.read(16);
             Console.WriteLine("connecting to user with guid:" + clientGuidBytes.ToString());
+            log.FileWrite("connecting to user with guid:" + clientGuidBytes.ToString());
             string serverRequest = ns.readString();
             Console.WriteLine(clientGuidBytes.ToString() + ": " + serverRequest);
             Console.WriteLine(client.Client.RemoteEndPoint.ToString());
             if (serverRequest == "WS4-fabric")
             {
+                log.FileWrite("sending WS4 package");
                 Console.WriteLine("sending WS4 package");
+                log.FileWrite("reading from C:\\Users\\OneSmiLe\\Desktop\\Temp\\LoliLand.zip");
                 SendPackage(ns, "C:\\Users\\OneSmiLe\\Desktop\\Temp\\LoliLand.zip");
             }
             else
@@ -80,6 +88,7 @@ namespace Launcher_Backend
                     }
                 }
             }
+            log.FileWrite("package sucsessfully sended");
         }
     }
 }
