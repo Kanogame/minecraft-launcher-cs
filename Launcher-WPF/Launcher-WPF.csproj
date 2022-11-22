@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="goConn.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -115,6 +116,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Backend-common\BackendCommon.csproj">
+      <Project>{933ad176-90e3-4553-af47-4c52c1710e11}</Project>
+      <Name>BackendCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

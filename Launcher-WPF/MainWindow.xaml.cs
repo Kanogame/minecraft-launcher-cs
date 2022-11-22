@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Launcher;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,8 @@ namespace Launcher_WPF
         private FontFamily RobotoBold = new FontFamily(new Uri("file://Fonts/Roboto-Bold.ttf"), "RobotoBold");
         private FontFamily RobotoRegular = new FontFamily(new Uri("file://Fonts/Roboto-Regular.ttf"), "RobotoRegular");
 
+        goConn GoConn = new goConn("127.0.0.1", 8081);
+
         public MainWindow()
         {
             InitializeComponent();
@@ -33,7 +36,14 @@ namespace Launcher_WPF
 
         private void LoadServerList()
         {
-            //GetServerData();
+            var test = GoConn.GetServers();
+            for (int i = 0; i < test.GetLength(0); i++)
+            {
+                for (int j = 0; j < test.GetLength(1); j++)
+                {
+                    MessageBox.Show(test[i, j] + " ");
+                }
+            }
             LinearGradientBrush GradientBrush = new LinearGradientBrush();
             GradientBrush.StartPoint = new Point(0, 0);
             GradientBrush.EndPoint = new Point(1, 2);
