@@ -11,8 +11,8 @@
     <title>Test</title>
 </head>
 <body>
-    <div class="container">
-        <form>
+    <div class="container" id="formBody">
+        <form method="POST" id="inputForm">
             <div class="picture">
                 <img src="./Rectangle 98.png" alt="">
             </div>
@@ -22,6 +22,7 @@
             <div class="h4">
                 Create a new account
             </div>
+            <!--
             <div class="input-text">
                 <div class="i-text">
                     Username
@@ -40,15 +41,18 @@
                 </div>
                 <input type="text" class="inp" value="Mobile Number">
             </div>
-            <div class="input-text">
-                <div class="i-text">
-                    Password
-                </div>
-                <input type="text" class="inp" value="Password">
+            -->
+            <div class="i-text">
+                Password
             </div>
-            <button class="btn" id="login">Login</button>
+            <input id="message" type="text" name="message" class="inp" value="Password">
+            <button class="btn" id="login" type="submit">Login</button>
         </form>
-        <script src="./script.js"></script>
+        <div id="serverMessageBox" style="text-align: center;">
+            
+            
+        </div>
     </div>
+    <script src="./script.js"></script>
 </body>
 </html>

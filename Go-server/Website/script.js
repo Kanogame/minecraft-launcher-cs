@@ -1,19 +1,21 @@
 "use strict"
 
-const loginbutton = document.getElementById("login");
-const resr = document.getElementById("resr");
+const url = "http://127.0.0.1:8181"
 
-loginbutton.addEventListener("click", function () {
-    let data = {
-        Name: value,
-        Time: new Date().toLocaleString("en-IE"),
-    };
-    fetch("/get_time", {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify(data)
-    });
+var inputForm = document.getElementById("inputForm");
+
+inputForm.addEventListener("submit", (e)=>{
+    e.preventDefault()
+
+    const formdata = new FormData(inputForm)
+    fetch(url,{
+        method:"POST",
+        body:formdata,
+    }).then(
+        response => response.text()
+    ).then(
+        (data) => {console.log(data);document.getElementById("serverMessageBox").innerHTML=data}
+    ).catch(
+        error => console.error(error)
+    )
 })
