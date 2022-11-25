@@ -1,0 +1,91 @@
+html 
+{
+    font-family: "Public-Sans", sans-serif;
+    box-sizing: border-box;
+}
+
+*, *::after, *::before
+{
+    box-sizing: inherit;
+}
+
+.container
+{
+    height: 100vh;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form
+{
+    background-color:black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.h2
+{
+    color: white;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 42px;
+    text-align: center;
+}
+
+.h4 
+{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    color: #C4C4C4;
+    margin-bottom: 18px;
+}
+
+.i-text
+{
+    color: white;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.inp
+{
+    margin-top: 6px;
+    margin-bottom: 6px;
+    width: 315px;
+    height: 48px;
+    border-radius: 6px;
+    outline: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 16px;
+    color: #C4C4C4;
+    border: none;
+}
+
+.btn 
+{
+    margin-top: 26px;
+    margin-bottom: 100px;
+    border-radius: 22px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    color: white;
+    background-color: rgb(5, 42, 77);
+    text-align: center;
+    height: 48px;
+    width: 320px;
+    display: block;
+}
