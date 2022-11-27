@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
+	//go Launcher.HandleServer()
 	Httpserver.StartHttpServer(8181)
-	//Launcher.HandleServer()
 }

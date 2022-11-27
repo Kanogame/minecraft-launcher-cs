@@ -1,21 +1,46 @@
 "use strict"
 
-const url = "http://127.0.0.1:8181"
+const url = "http://192.168.1.8:8181"
 
-var inputForm = document.getElementById("inputForm");
-
+/*
 inputForm.addEventListener("submit", (e)=>{
     e.preventDefault()
+};
+*/
 
-    const formdata = new FormData(inputForm)
-    fetch(url,{
-        method:"POST",
-        body:formdata,
-    }).then(
-        response => response.text()
-    ).then(
-        (data) => {console.log(data);document.getElementById("serverMessageBox").innerHTML=data}
-    ).catch(
-        error => console.error(error)
-    )
-})
+function SendRequest(method, url, body = null) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open(method, url)
+        xhr.responseType = "json"
+        xhr.setRequestHeader("Content-Type", "application/json")
+
+        xhr.onload = () => {
+            if (xhr.status >= 400) { 
+                reject(xhr.response)
+            } else {
+                resolve(xhr.response)
+            }
+        }
+
+        xhr.onerror = () => {
+            reject(xhr.response)
+        }
+
+        xhr.send(JSON.stringify(body))
+    })
+}
+
+const body = {
+    name: "KA",
+    age: 63
+}
+
+SendRequest("POST", url, body)
+.then(data => console.log(data))
+.catch(error => console.log(error))
+
+SendRequest("GET", url)
+.then(data => console.log(data))
+.catch(error => console.log(error))
