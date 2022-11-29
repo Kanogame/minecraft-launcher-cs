@@ -34,8 +34,10 @@ func PostData(w http.ResponseWriter, r *http.Request) {
 }
 
 type bodys struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Number   int    `json:"num"`
+	Password string `json:"password"`
 }
 
 func PostRead(r *http.Request) string {
@@ -50,7 +52,9 @@ func PostRead(r *http.Request) string {
 		panic(err)
 	}
 	fmt.Println(t.Name)
-	fmt.Println(t.Age)
+	fmt.Println(t.Email)
+	fmt.Println(t.Number)
+	fmt.Println(t.Password)
 	return ""
 }
 
