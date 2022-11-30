@@ -12,11 +12,15 @@ type Userdata struct {
 	Name       string `json:"name"`
 	Email      string `json:"email"`
 	Password   string `json:"password"`
-	MCusername string `json:"mcusername"`
+	Mcusername string `json:"mcusername"`
+}
+
+type PostType struct {
+	Type string `json:"type"`
+	Test string `json:"test"`
 }
 
 func StartHttpServer(port int) {
-	FindDB("root", "password")
 	http.HandleFunc("/", HttpHandler)
 	fmt.Println("Httpserver is up and listening on ", port)
 	http.ListenAndServe(":"+strconv.Itoa(port), nil)
@@ -41,24 +45,41 @@ func HttpHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
-	var NewUserdata = PostJSON(r)
-	fmt.Println(NewUserdata)
+	//var db = FindDB("root", "password")
+	//defer db.Close()
+	PostGetType(r)
 	fmt.Fprintf(w, "success")
+	PostJSON(r)
+	fmt.Fprintf(w, "success")
+	//fmt.Fprintf(w, "success")
+	//fmt.Println(NewUserdata)
 }
 
-func PostJSON(r *http.Request) Userdata {
+func PostGetType(r *http.Request) PostType {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
 	}
-	var t Userdata
-	err = json.Unmarshal(body, &t)
+	var post PostType
+	err = json.Unmarshal(body, &post)
 	if err != nil {
 		panic(err)
 	}
-	return t
+	fmt.Println(string(body))
+	fmt.Println(post)
+	return post
 }
 
-func PostWrite(w http.ResponseWriter, text string) {
-	fmt.Println("sending to web: " + text)
+func PostJSON(r *http.Request) {
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+	//var post Userdata
+	//err = json.Unmarshal(body, &post)
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	fmt.Println(string(body))
+	//return t
 }

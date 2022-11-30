@@ -7,18 +7,17 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func FindDB(user string, password string) {
+func FindDB(user string, password string) *sql.DB {
 	db, err := sql.Open("mysql", user+":"+password+"@tcp(localhost:3306)/userdata")
 	if err != nil {
 		panic(err)
 	}
 
-	defer db.Close()
-
 	fmt.Println("подключено")
-
-	GetUserByName(db, "baaanchic")
 	/*
+		var userVal = GetUserByName(db, "baaanchic")
+		if ()
+
 		res, err := db.Query("SELECT * FROM Users")
 		if err != nil {
 			panic(err)
@@ -37,21 +36,25 @@ func FindDB(user string, password string) {
 			fmt.Println(user)
 		}
 	*/
+	return db
 }
 
-func GetUserByName(db *sql.DB, name string) {
+func GetUserByName(db *sql.DB, name string) Userdata {
 	res, err := db.Query("SELECT username, passwrd, email, mcusername FROM Users \nWHERE username = '" + name + "';")
 	if err != nil {
 		panic(err)
 	}
 
-	for res.Next() {
-		var user Userdata
+	var user Userdata
 
-		err := res.Scan(&user.Name, &user.Password, &user.Email, &user.MCusername)
+	for res.Next() {
+
+		err := res.Scan(&user.Name, &user.Password, &user.Email, &user.Mcusername)
 		if err != nil {
-			panic(err)
+			user.Name = "nil"
+			return user
 		}
 		fmt.Println(user)
 	}
+	return user
 }
