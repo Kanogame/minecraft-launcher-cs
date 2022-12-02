@@ -14,29 +14,18 @@ func FindDB(user string, password string) *sql.DB {
 	}
 
 	fmt.Println("подключено")
-	/*
-		var userVal = GetUserByName(db, "baaanchic")
-		if ()
-
-		res, err := db.Query("SELECT * FROM Users")
-		if err != nil {
-			panic(err)
-		}
-
-		for res.Next() {
-			var user Userdata
-			var id int
-
-			err := res.Scan(&id, &user.Name, &user.Password, &user.Email, &user.MCusername)
-
-			if err != nil {
-				panic(err)
-			}
-			fmt.Print(id)
-			fmt.Println(user)
-		}
-	*/
+	db.Exec("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('asd', 'asd', 'asd', 'asd')")
 	return db
+}
+
+func RegNewUser(db *sql.DB, data Userdata) bool {
+	res, err := db.Exec(fmt.Sprintf("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('%v', '%v', '%v', '%v')", data.Name, data.Password, data.Email, data.Mcusername))
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	fmt.Println(res)
+	return true
 }
 
 func GetUserByName(db *sql.DB, name string) Userdata {
@@ -51,7 +40,7 @@ func GetUserByName(db *sql.DB, name string) Userdata {
 
 		err := res.Scan(&user.Name, &user.Password, &user.Email, &user.Mcusername)
 		if err != nil {
-			user.Name = "nil"
+			user.Name = ""
 			return user
 		}
 		fmt.Println(user)

@@ -8,7 +8,7 @@ inputForm.addEventListener("submit", (e)=>{
     e.preventDefault()
     const data = new FormData(e.target);
     const bodyData = CreateJSON(data.get("Username"), data.get("Email"), data.get("Password"), data.get("MCusername"))
-    RequestType("testing", bodyData);
+    RequestType("reg", bodyData);
 });
 
 function CreateJSON (username, email, password, mcusername) {
@@ -23,28 +23,27 @@ function CreateJSON (username, email, password, mcusername) {
 async function RequestType(type, bodyData) {
     let response = await fetch(url, {
         method: 'POST',
-        headers: {
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify( {
-            type: type,
-            test: "test",
-        }),
+        body: type
     });
-    let text = response.text();
+    let text = await response.text();
     console.log(text);
-    ServerRequest(bodyData)
+    await ServerRequest(bodyData)
 }
 
 async function ServerRequest(bodyData) {
-    let response = fetch(url, {
+    let response = await fetch(url, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json'
         },
         body: JSON.stringify(bodyData),
     });
-    let text = response.text();
-    console.log(text);
+    let text = await response.text();
+    if (test === "success") {
+        console.log(text);
+    }
+    else {
+        alert("alreadyexits");
+    }
 }
 

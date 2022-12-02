@@ -15,10 +15,7 @@ type Userdata struct {
 	Mcusername string `json:"mcusername"`
 }
 
-type PostType struct {
-	Type string `json:"type"`
-	Test string `json:"test"`
-}
+var postType = ""
 
 func StartHttpServer(port int) {
 	http.HandleFunc("/", HttpHandler)
@@ -45,41 +42,45 @@ func HttpHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
-	//var db = FindDB("root", "password")
-	//defer db.Close()
-	PostGetType(r)
-	fmt.Fprintf(w, "success")
-	PostJSON(r)
-	fmt.Fprintf(w, "success")
-	//fmt.Fprintf(w, "success")
-	//fmt.Println(NewUserdata)
+	var db = FindDB("root", "password")
+	if postType == "" {
+		PostGetType(r)
+		fmt.Fprintf(w, "success")
+	} else if postType == "reg" {
+		var json = PostJSON(r)
+		var exist = RegNewUser(db, json)
+		if exist {
+			fmt.Fprintf(w, "success")
+		} else {
+			fmt.Fprintf(w, "alreadyexits")
+			fmt.Println("alreadyexits")
+		}
+	}
 }
 
-func PostGetType(r *http.Request) PostType {
+func PostGetType(r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
 	}
-	var post PostType
+	var res = string(body)
+	if res == "reg" {
+		postType = "reg"
+	} else {
+		panic(err)
+	}
+}
+
+func PostJSON(r *http.Request) Userdata {
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+	var post Userdata
 	err = json.Unmarshal(body, &post)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(string(body))
 	fmt.Println(post)
 	return post
-}
-
-func PostJSON(r *http.Request) {
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		panic(err)
-	}
-	//var post Userdata
-	//err = json.Unmarshal(body, &post)
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	fmt.Println(string(body))
-	//return t
 }
