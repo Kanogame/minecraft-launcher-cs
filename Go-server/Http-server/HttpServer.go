@@ -53,7 +53,6 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "success")
 		} else {
 			fmt.Fprintf(w, "alreadyexits")
-			fmt.Println("alreadyexits")
 		}
 	}
 }
@@ -67,7 +66,7 @@ func PostGetType(r *http.Request) {
 	if res == "reg" {
 		postType = "reg"
 	} else {
-		panic(err)
+		fmt.Println("error")
 	}
 }
 
@@ -82,5 +81,6 @@ func PostJSON(r *http.Request) Userdata {
 		panic(err)
 	}
 	fmt.Println(post)
+	postType = ""
 	return post
 }
