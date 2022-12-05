@@ -18,7 +18,7 @@ func FindDB(user string, password string) *sql.DB {
 	return db
 }
 
-func RegNewUser(db *sql.DB, data Userdata) bool {
+func RegNewUser(db *sql.DB, data UserRegData) bool {
 	res, err := db.Exec(fmt.Sprintf("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('%v', '%v', '%v', '%v')", data.Name, data.Password, data.Email, data.Mcusername))
 	if err != nil {
 		fmt.Println(err)
@@ -28,22 +28,26 @@ func RegNewUser(db *sql.DB, data Userdata) bool {
 	return true
 }
 
-func GetUserByName(db *sql.DB, name string) Userdata {
-	res, err := db.Query("SELECT username, passwrd, email, mcusername FROM Users \nWHERE username = '" + name + "';")
+func CheckPasswd(db *sql.DB, logData UserLogData) bool {
+	res, err := db.Query("SELECT username, passwrd FROM Users \nWHERE username = ?", logData.Name)
 	if err != nil {
 		panic(err)
 	}
 
-	var user Userdata
+	var user UserLogData
 
 	for res.Next() {
 
-		err := res.Scan(&user.Name, &user.Password, &user.Email, &user.Mcusername)
+		err := res.Scan(&user.Name, &user.Password)
 		if err != nil {
-			user.Name = ""
-			return user
+			return false
 		}
 		fmt.Println(user)
 	}
-	return user
+
+	if logData.Password == user.Password {
+		return true
+	} else {
+		return false
+	}
 }

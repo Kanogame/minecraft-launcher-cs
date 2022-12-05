@@ -1,32 +1,15 @@
 "use strict"
 
-const url = "http://176.65.35.172:8181"
+const url = "http://192.168.1.8:8181"
 
 var inputForm = document.getElementById("inputForm");
-var loginForm = document.getElementById("loginForm");
-
-loginForm.addEventListener("submit", (e)=>{})
 
 inputForm.addEventListener("submit", (e)=>{
-    e.preventDefault()
+    e.preventDefault();
     const data = new FormData(e.target);
-    const bodyData = CreateJSON(data.get("Username"), data.get("Email"), data.get("Password"), data.get("MCusername"))
+    const bodyData = CreateRegJSON(data.get("Username"), data.get("Email"), data.get("Password"), data.get("MCusername"))
     SendReg(bodyData);
 });
-
-async function SendReg(bodyData) {
-    await RequestType("reg");
-    await ServerRequest(bodyData);
-}
-
-function CreateJSON (username, email, password, mcusername) {
-    return {
-        name: username,
-        email: email,
-        password: password,
-        mcusername: mcusername,
-    }
-}
 
 async function RequestType(type) {
     let response = await fetch(url, {
@@ -55,3 +38,16 @@ async function ServerRequest(bodyData) {
     }
 }
 
+async function SendReg(bodyData) {
+    await RequestType("reg");
+    await ServerRequest(bodyData);
+}
+
+function CreateRegJSON (username, email, password, mcusername) {
+    return {
+        name: username,
+        email: email,
+        password: password,
+        mcusername: mcusername,
+    }
+}

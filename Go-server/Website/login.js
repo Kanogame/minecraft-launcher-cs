@@ -2,26 +2,14 @@
 
 const url = "http://192.168.1.8:8181"
 
-var inputForm = document.getElementById("loginForm");
+var loginForm = document.getElementById("loginForm");
 
-inputForm.addEventListener("submit", (e)=>{
-    e.preventDefault()
+loginForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
     const data = new FormData(e.target);
-    const bodyData = CreateJSON(data.get("Username"), data.get("Password"))
+    const bodyData = CreateLogJSON(data.get("Username"), data.get("Password"))
     SendLogin(bodyData);
 });
-
-async function SendLogin(bodyData) {
-    await RequestType("reg");
-    await ServerRequest(bodyData);
-}
-
-function CreateJSON (username, password) {
-    return {
-        name: username,
-        password: password,
-    }
-}
 
 async function RequestType(type) {
     let response = await fetch(url, {
@@ -50,3 +38,14 @@ async function ServerRequest(bodyData) {
     }
 }
 
+async function SendLogin(bodyData) {
+    await RequestType("login");
+    await ServerRequest(bodyData);
+}
+
+function CreateLogJSON (username, password) {
+    return {
+        name: username,
+        password: password,
+    }
+}
