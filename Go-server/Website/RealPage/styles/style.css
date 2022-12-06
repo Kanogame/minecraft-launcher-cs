@@ -1,0 +1,16 @@
+html {
+    font-family: roboto, sans-serif;
+    box-sizing: border-box;
+}
+
+*, *::after, *::before
+{
+    box-sizing: inherit;
+}
+
+.canvas {
+    width: auto;
+    height: 100vh;
+    margin: 0 auto;
+    background-color: purple;
+}

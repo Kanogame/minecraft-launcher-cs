@@ -53,7 +53,6 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "success")
 	} else if postType == "reg" {
 		var json = PostRegJSON(r)
-		fmt.Println(json)
 		var exist = RegNewUser(db, json)
 		if exist {
 			fmt.Fprintf(w, "success")
@@ -62,12 +61,11 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	} else if postType == "login" {
 		var json = PostLogJSON(r)
-		fmt.Println(json)
 		var exist = CheckPasswd(db, json)
 		if exist {
 			fmt.Fprintf(w, "success")
 		} else {
-			fmt.Fprintf(w, "alreadyexits")
+			fmt.Fprintf(w, "FalsePassword")
 		}
 	}
 }
@@ -78,10 +76,8 @@ func PostGetType(r *http.Request) {
 		panic(err)
 	}
 	var res = string(body)
-	if res == "reg" {
-		postType = "reg"
-	} else if res == "login" {
-		postType = "login"
+	if res == "reg" || res == "login" {
+		postType = res
 	} else {
 		fmt.Println("error")
 	}
@@ -95,10 +91,8 @@ func PostRegJSON(r *http.Request) UserRegData {
 	var post UserRegData
 	err = json.Unmarshal(body, &post)
 	if err != nil {
-		fmt.Println(body)
 		panic(err)
 	}
-	fmt.Println(post)
 	postType = ""
 	return post
 }
@@ -111,10 +105,8 @@ func PostLogJSON(r *http.Request) UserLogData {
 	var post UserLogData
 	err = json.Unmarshal(body, &post)
 	if err != nil {
-		fmt.Println(body)
 		panic(err)
 	}
-	fmt.Println(post)
 	postType = ""
 	return post
 }

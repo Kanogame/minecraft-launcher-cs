@@ -11,6 +11,11 @@ inputForm.addEventListener("submit", (e)=>{
     SendReg(bodyData);
 });
 
+async function SendReg(bodyData) {
+    await RequestType("reg");
+    await ServerRequest(bodyData);
+}
+
 async function RequestType(type) {
     let response = await fetch(url, {
         method: 'POST',
@@ -36,11 +41,6 @@ async function ServerRequest(bodyData) {
     else {
         alert("alreadyexits");
     }
-}
-
-async function SendReg(bodyData) {
-    await RequestType("reg");
-    await ServerRequest(bodyData);
 }
 
 function CreateRegJSON (username, email, password, mcusername) {

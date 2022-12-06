@@ -11,6 +11,11 @@ loginForm.addEventListener("submit", (e)=>{
     SendLogin(bodyData);
 });
 
+async function SendLogin(bodyData) {
+    await RequestType("login");
+    await ServerRequest(bodyData);
+}
+
 async function RequestType(type) {
     let response = await fetch(url, {
         method: 'POST',
@@ -34,13 +39,8 @@ async function ServerRequest(bodyData) {
         console.log(text);
     }
     else {
-        alert("alreadyexits");
+        alert("false password");
     }
-}
-
-async function SendLogin(bodyData) {
-    await RequestType("login");
-    await ServerRequest(bodyData);
 }
 
 function CreateLogJSON (username, password) {

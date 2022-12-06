@@ -14,14 +14,12 @@ func FindDB(user string, password string) *sql.DB {
 	}
 
 	fmt.Println("подключено")
-	db.Exec("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('asd', 'asd', 'asd', 'asd')")
 	return db
 }
 
 func RegNewUser(db *sql.DB, data UserRegData) bool {
 	res, err := db.Exec(fmt.Sprintf("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('%v', '%v', '%v', '%v')", data.Name, data.Password, data.Email, data.Mcusername))
 	if err != nil {
-		fmt.Println(err)
 		return false
 	}
 	fmt.Println(res)
@@ -42,7 +40,6 @@ func CheckPasswd(db *sql.DB, logData UserLogData) bool {
 		if err != nil {
 			return false
 		}
-		fmt.Println(user)
 	}
 
 	if logData.Password == user.Password {
