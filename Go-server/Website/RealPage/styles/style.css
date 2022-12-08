@@ -8,9 +8,40 @@ html {
     box-sizing: inherit;
 }
 
-.canvas {
+.main {
     width: auto;
-    height: 100vh;
+    height: 70vh;
     margin: 0 auto;
-    background-color: purple;
+    background-image: url(https://i.pinimg.com/originals/c7/75/dc/c775dc91f2c3688627d40ffe3b19bc54.jpg);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-text {
+    padding: 10px 40px;
+    margin: 20px;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.4);
+    border-radius: 10px;
+    z-index: 2;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+  	-webkit-backdrop-filter: blur(5px);
+}
+
+.main-h1 {
+    font-family: Raleway;
+    font-size: 90px;
+    font-weight: 800;
+}
+
+.main-p {
+    font-family: Noto Sans;
+    font-size: 50px;
+    font-weight: 500;
+    text-align: center;
 }
