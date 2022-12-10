@@ -43,7 +43,6 @@ namespace Launcher_Backend
             {
                 var client = listener.AcceptTcpClient();
                 log.FileWrite($"sending files to {client.Client.RemoteEndPoint} from port {Port}");
-                Console.WriteLine($"sending files to {client.Client.RemoteEndPoint} from port {Port}");
                 Clienthandle(client);
             }
         }
@@ -51,18 +50,16 @@ namespace Launcher_Backend
         private void Clienthandle(TcpClient client)
         {
             var ns = client.GetStream();
-            var clientGuidBytes = ns.read(16);
-            Console.WriteLine("connecting to user with guid:" + clientGuidBytes.ToString());
-            log.FileWrite("connecting to user with guid:" + clientGuidBytes.ToString());
+            var clientName = ns.readString();
+            log.FileWrite("connecting to user with name:" + clientName);
             string serverRequest = ns.readString();
-            Console.WriteLine(clientGuidBytes.ToString() + ": " + serverRequest);
+            Console.WriteLine(clientName + ": " + serverRequest);
             Console.WriteLine(client.Client.RemoteEndPoint.ToString());
             if (serverRequest == "WS4-fabric")
             {
                 log.FileWrite("sending WS4 package");
-                Console.WriteLine("sending WS4 package");
-                log.FileWrite("reading from C:\\Users\\OneSmiLe\\Desktop\\Temp\\LoliLand.zip");
-                SendPackage(ns, "C:\\Users\\OneSmiLe\\Desktop\\Temp\\LoliLand.zip");
+                log.FileWrite("reading from C:\\Users\\OneSmiLe\\Desktop\\Temp\\minecraft.zip");
+                SendPackage(ns, "C:\\Users\\OneSmiLe\\Desktop\\Temp\\minecraft.zip");
             }
             else
             {

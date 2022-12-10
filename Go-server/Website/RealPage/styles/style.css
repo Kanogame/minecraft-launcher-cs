@@ -12,5 +12,22 @@ html {
     width: auto;
     height: 100vh;
     margin: 0 auto;
-    background-color: purple;
+    background-color: #fff;
+    color:#5755b3;
+    position: relative;
+}
+
+.text-main {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    right: 50%;
+    background-color: aquamarine;
+}
+
+.h2-main {
+    color: black;
+    font-family: Raleway;
+    font-size: 40px;
+    font-weight: 700;
 }

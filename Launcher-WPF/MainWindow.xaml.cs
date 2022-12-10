@@ -16,19 +16,18 @@ using System.Windows.Shapes;
 
 namespace Launcher_WPF
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
 
         goConn GoConn;
         CreateCard createCard;
+        FileRequest fileRequest;
 
         public MainWindow()
         {
             InitializeComponent();
             GoConn = new goConn("127.0.0.1", 8081);
+            fileRequest = new FileRequest(GoConn);
             createCard = new CreateCard(ServerList, ServersCol);
             LoadServerList();
         }

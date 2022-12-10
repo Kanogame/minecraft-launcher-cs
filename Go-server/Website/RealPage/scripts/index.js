@@ -2,7 +2,7 @@ var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext('2d');
 
 canvas.width = 1920;
-canvas.height = 1080;
+canvas.height = 800;
 
 var stars = [], 
     FPS = 120,
@@ -25,16 +25,14 @@ for (var i = 0; i < x; i++) {
 function draw() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
   
-  ctx.globalCompositeOperation = "lighter";
-  
   for (var i = 0, x = stars.length; i < x; i++) {
     var s = stars[i];
   
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = "#5755b3";
     ctx.beginPath();
     ctx.arc(s.x, s.y, 100, 0, 2 * Math.PI);
     ctx.fill();
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = '#5755b3';
     ctx.stroke();
   }
   
@@ -51,8 +49,9 @@ function draw() {
     }
   }
   ctx.lineWidth = 0.05;
-  ctx.strokeStyle = 'white';
+  ctx.strokeStyle = '#5755b3';
   ctx.stroke();
+  ctx.filter = 'blur(40px)';
 }
 
 function distance( point1, point2 ){
@@ -85,5 +84,6 @@ function tick() {
   update();
   requestAnimationFrame(tick);
 }
+
 
 tick();
