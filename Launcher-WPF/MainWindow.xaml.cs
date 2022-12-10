@@ -29,8 +29,12 @@ namespace Launcher_WPF
             GoConn = new goConn("127.0.0.1", 8081);
             fileRequest = new FileRequest(GoConn);
             createCard = new CreateCard(ServerList, ServersCol);
-            LoadServerList();
+            //Initialize();
         }
+
+        //private void Initialize()
+        //{
+        //}
 
         private void LoadServerList()
         {

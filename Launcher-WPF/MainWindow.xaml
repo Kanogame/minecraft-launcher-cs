@@ -12,7 +12,7 @@
 
     <Border Background="#272537"
             CornerRadius="16">
-        <Grid>
+        <Grid x:Name="MainGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="74*">
 
@@ -96,6 +96,20 @@
                     </StackPanel.Resources>
                 </StackPanel>
             </ScrollViewer>
+            
+            <Grid x:Name="InputBox" Visibility="Collapsed">
+                <Grid Background="Black" Opacity="0.5">
+                    <Border Background="BlueViolet" Width="100" Height="500" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock Text="FUCK"/>
+                            <TextBox Text="login"/>
+                            <TextBox Text="password"/>
+                            <Button Content="Yes"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
         </Grid>
+
     </Border>
 </Window>
