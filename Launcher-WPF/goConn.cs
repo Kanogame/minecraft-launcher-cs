@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace Launcher
 {
-    internal class goConn
+    public class goConn
     {
         private string ip;
         private int port;

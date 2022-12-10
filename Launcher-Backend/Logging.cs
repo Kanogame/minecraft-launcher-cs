@@ -22,6 +22,7 @@ namespace Launcher_Backend
 
         public void FileWrite(string text) 
         {
+            Console.WriteLine(text);
             using (StreamWriter sw = File.AppendText(path))
             {
                 sw.WriteLine($"{GetTimeNow()}: {text}");
