@@ -12,26 +12,6 @@ html {
     width: auto;
     height: 70vh;
     margin: 0 auto;
-<<<<<<< HEAD
-    background-color: #fff;
-    color:#5755b3;
-    position: relative;
-}
-
-.text-main {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    right: 50%;
-    background-color: aquamarine;
-}
-
-.h2-main {
-    color: black;
-    font-family: Raleway;
-    font-size: 40px;
-    font-weight: 700;
-=======
     background-image: url(https://i.pinimg.com/originals/c7/75/dc/c775dc91f2c3688627d40ffe3b19bc54.jpg);
     background-position: 50%;
     background-repeat: no-repeat;
@@ -64,5 +44,4 @@ html {
     font-size: 50px;
     font-weight: 500;
     text-align: center;
->>>>>>> Launcher/master
 }
