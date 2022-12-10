@@ -2,6 +2,7 @@ package Launcher
 
 import (
 	"encoding/binary"
+	Httpserver "main/Http-server"
 	"net"
 )
 
@@ -29,4 +30,13 @@ func readString(conn net.Conn) string {
 	var bytes = make([]byte, len)
 	conn.Read(bytes)
 	return string(bytes)
+}
+
+func readUserdata(conn net.Conn) Httpserver.UserLogData {
+	var name = readString(conn)
+	var password = readString(conn)
+	var res Httpserver.UserLogData
+	res.Name = name
+	res.Password = password
+	return res
 }

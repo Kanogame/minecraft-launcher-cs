@@ -50,5 +50,15 @@ namespace Launcher
             }
             return servers;
         }
+
+        public bool VerifyUser(string name, string password)
+        {
+            var goServ = new TcpClient(ip, port);
+            goStream = goServ.GetStream();
+            goStream.writeString("verifyuser");
+            goStream.writeString(name);
+            goStream.writeString(password);
+            return goStream.readInt() == 1;
+        }
     }
 }
