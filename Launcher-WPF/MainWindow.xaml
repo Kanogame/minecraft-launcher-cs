@@ -12,104 +12,110 @@
 
     <Border Background="#272537"
             CornerRadius="16">
-        <Grid x:Name="MainGrid">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="74*">
+        <Grid>
+            <Grid x:Name="MainGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="74*">
 
-                </ColumnDefinition>
-                <ColumnDefinition Width="285*"  x:Name="ServersCol">
-                    
-                </ColumnDefinition>
-                <ColumnDefinition Width="541*">
+                    </ColumnDefinition>
+                    <ColumnDefinition Width="285*"  x:Name="ServersCol">
 
-                </ColumnDefinition>
-            </Grid.ColumnDefinitions>
+                    </ColumnDefinition>
+                    <ColumnDefinition Width="541*">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="57*">
+                    </ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
-                </RowDefinition>
-                <RowDefinition Height="443*">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="57*">
 
-                </RowDefinition>
-            </Grid.RowDefinitions>
+                    </RowDefinition>
+                    <RowDefinition Height="443*">
 
-            <Button Style="{StaticResource Logo}" Margin="22,14,22,13"/>
+                    </RowDefinition>
+                </Grid.RowDefinitions>
 
-            <TextBlock Text="KanoLauncher"
+                <Button Style="{StaticResource Logo}" Margin="22,14,22,13"/>
+
+                <TextBlock Text="KanoLauncher"
                        Grid.Column="1"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
                        Foreground="White"
                        FontSize="20" Height="27" Width="125"/>
 
-            <StackPanel Grid.Row="1">
+                <StackPanel Grid.Row="1">
 
-                <Button
+                    <Button
                     Width="63"
                     Height="63"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Click="Button_Click">
-                    <Image Source="Images/Game.png"
+                        <Image Source="Images/Game.png"
                            Width="50"/>
-                </Button>
-                <Button
+                    </Button>
+                    <Button
                     Width="63"
                     Height="63"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Click="Button_Click">
-                    <Image Source="Images/User.png"
+                        <Image Source="Images/User.png"
                            Width="50"/>
-                </Button>
-                <Button
+                    </Button>
+                    <Button
                     Width="63"
                     Height="63"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Click="Button_Click">
-                    <Image Source="Images/Folder.png"
+                        <Image Source="Images/Folder.png"
                            Width="50"/>
-                </Button>
-                <Button
+                    </Button>
+                    <Button
                     Width="63"
                     Height="63"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Click="Button_Click">
-                    <Image Source="Images/Exit.png"
+                        <Image Source="Images/Exit.png"
                            Width="50"/>
-                </Button>
-            </StackPanel>
+                    </Button>
+                </StackPanel>
 
-            <ScrollViewer Grid.Row="2" Grid.Column="1" 
+                <ScrollViewer Grid.Row="2" Grid.Column="1" 
                           PanningMode="VerticalOnly" HorizontalScrollBarVisibility="Disabled"
                           VerticalScrollBarVisibility="Hidden">
-                <StackPanel Grid.Row="2" Grid.Column="1"
+                    <StackPanel Grid.Row="2" Grid.Column="1"
                             x:Name="ServerList"
                             CanHorizontallyScroll="True">
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type Rectangle}">
-                            <Setter Property="Margin" Value="0,10,0,0"/>
-                        </Style>
-                    </StackPanel.Resources>
-                </StackPanel>
-            </ScrollViewer>
-            
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Margin" Value="0,10,0,0"/>
+                            </Style>
+                        </StackPanel.Resources>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
             <Grid x:Name="InputBox" Visibility="Collapsed">
                 <Grid Background="Black" Opacity="0.5">
-                    <Border Background="BlueViolet" Width="100" Height="500" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border Background="#272537" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" CornerRadius="16">
                         <StackPanel>
-                            <TextBlock Text="FUCK"/>
-                            <TextBox Text="login"/>
-                            <TextBox Text="password"/>
-                            <Button Content="Yes"/>
+                            <TextBlock Text="Login" Foreground="White" 
+                                       HorizontalAlignment="Center" Margin="0, 10"
+                                       FontSize="20"/>
+                            <TextBox Text="login" Margin="10 0 10 10" Padding="5 10" FontSize="16" x:Name="inpBox"
+                                     Background="Transparent" BorderBrush="#524891" Foreground="White"/>
+                            <TextBox Text="password" Margin="10 0 10 10" Padding="5 10" FontSize="16" x:Name="pasBox"
+                                     Background="Transparent" BorderBrush="#524891" Foreground="White"/>
+                            <Button Content="Log in" Margin="10 0 10 20" Padding="5 10" 
+                                    BorderBrush="#524891" Background="Transparent"
+                                       FontSize="20" Foreground="White" Click="Button_Click_1"/>
                         </StackPanel>
                     </Border>
                 </Grid>
             </Grid>
         </Grid>
-
     </Border>
 </Window>

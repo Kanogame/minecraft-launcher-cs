@@ -22,6 +22,7 @@ namespace Launcher_WPF
         goConn GoConn;
         CreateCard createCard;
         FileRequest fileRequest;
+        private int loginCnt = 0;
 
         public MainWindow()
         {
@@ -29,12 +30,15 @@ namespace Launcher_WPF
             GoConn = new goConn("127.0.0.1", 8081);
             fileRequest = new FileRequest(GoConn);
             createCard = new CreateCard(ServerList, ServersCol);
-            //Initialize();
+            Initialize();
         }
 
-        //private void Initialize()
-        //{
-        //}
+        private void Initialize()
+        {
+            //TODO: сделать систему сохранения и шифрации логин пароль
+            //DeepTODO: сделать систему синхронизации ключей по отдельной базе
+            InputBox.Visibility = Visibility.Visible;
+        }
 
         private void LoadServerList()
         {
@@ -61,5 +65,28 @@ namespace Launcher_WPF
         {
             Application.Current.Shutdown();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (inpBox.Text != "login" && pasBox.Text != "password" && loginCnt <= 3)
+            {
+                if (loginCnt <= 3)
+                {
+                    if (!GoConn.VerifyUser(inpBox.Text, pasBox.Text))
+                    {
+                        MessageBox.Show("Неверный логин или пароль");
+                        loginCnt++;
+                    }
+                    else
+                    {
+                        InputBox.Visibility = Visibility.Collapsed;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Вы совершили слишком много попыток, вы были забаненый нахуй");
+                }
+            }
+        } 
     }
 }
