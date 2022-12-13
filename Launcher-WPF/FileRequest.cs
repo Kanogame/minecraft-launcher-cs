@@ -1,5 +1,4 @@
 ﻿using BackendCommon;
-using Launcher;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,13 +15,21 @@ namespace Launcher_WPF
     public class FileRequest
     {
         string defaultTempPath = "C:\\Users\\OneSmiLe\\Desktop\\Temp\\Resenved";
-        string defaultGamePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft", "instances");
+        string defPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft");
+        string defaultGamePath;
         string instanceName = "";
         goConn GoConn;
 
         public FileRequest(goConn GoConn)
         {
             this.GoConn = GoConn;
+            defaultGamePath = Path.Combine(defPath, "instances");
+            TempClearing(defaultTempPath);
+        }
+
+        public bool ReadUserData()
+        {
+            return File.Exists(Path.Combine(defPath, "data", "temp.txt"));
         }
 
         public bool CheckFile(string instanceName)
