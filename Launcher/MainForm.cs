@@ -26,12 +26,14 @@ namespace Launcher
         NetworkStream clientStream;
         Guid thisClientId;
         goConn GoConn;
+        L_P LP;
 
         public MainForm()
         {
+            LP = new L_P(1, "123");
             InitializeComponent();
-            thisClientId = Guid.NewGuid();
-            GoConn = new goConn("127.0.0.1", 8081);
+            //thisClientId = Guid.NewGuid();
+            //GoConn = new goConn("127.0.0.1", 8081);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -103,6 +105,16 @@ namespace Launcher
         private void button2_Click(object sender, EventArgs e)
         {
             GoConn.GetBackIp();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            label2.Text = LP.Encode(textBox2.Text, "123");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            label2.Text = LP.Decode(textBox3.Text, "123");
         }
     }
 }

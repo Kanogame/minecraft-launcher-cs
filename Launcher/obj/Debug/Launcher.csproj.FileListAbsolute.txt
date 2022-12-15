@@ -12,3 +12,17 @@ C:\Users\OneSmiLe\source\repos\Launcher\Launcher\obj\Debug\Launcher.pdb
 C:\Users\OneSmiLe\source\repos\Launcher\Launcher\bin\Debug\Backend-common.dll
 C:\Users\OneSmiLe\source\repos\Launcher\Launcher\bin\Debug\Backend-common.pdb
 C:\Users\OneSmiLe\source\repos\Launcher\Launcher\obj\Debug\Launcher.csproj.CopyComplete
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\obj\Debug\Launcher.csproj.AssemblyReference.cache
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\obj\Debug\Launcher.csproj.SuggestedBindingRedirects.cache
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\obj\Debug\Launcher.MainForm.resources
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\obj\Debug\Launcher.Properties.Resources.resources
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\obj\Debug\Launcher.csproj.GenerateResource.cache
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\obj\Debug\Launcher.csproj.CoreCompileInputs.cache
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\obj\Debug\Launcher.exe
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\obj\Debug\Launcher.pdb
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\bin\Debug\Launcher.exe.config
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\bin\Debug\Launcher.exe
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\bin\Debug\Launcher.pdb
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\bin\Debug\Backend-common.dll
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\bin\Debug\Backend-common.pdb
+C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Launcher\obj\Debug\Launcher.csproj.CopyComplete
