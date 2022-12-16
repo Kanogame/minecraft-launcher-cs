@@ -26,6 +26,8 @@ func HandleServer() {
 			getServerList(conn)
 		case "verifyuser":
 			verifyuser(conn)
+		case "filecr":
+			filecr(conn)
 		}
 		conn.Close()
 	}

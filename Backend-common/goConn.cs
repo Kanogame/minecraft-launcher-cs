@@ -22,10 +22,15 @@ namespace BackendCommon
             this.port = port;
         }
 
-        public bool WriteAcc(string data)
+        private NetworkStream initConnection()
         {
             var goServ = new TcpClient(ip, port);
-            goStream = goServ.GetStream();
+            return goServ.GetStream();
+        }
+
+        public bool WriteAcc(string data)
+        {
+            goStream = initConnection();
             goStream.writeString("sacc");
             goStream.writeString(data);
             return goStream.readInt() == 1;
@@ -33,8 +38,7 @@ namespace BackendCommon
 
         public TcpClient GetBackIp()
         {
-            var goServ = new TcpClient(ip, port);
-            goStream = goServ.GetStream();
+            goStream = initConnection();
             goStream.writeString("getbackip");
             var bip = goStream.readString();
             var bport = goStream.readInt();
@@ -43,8 +47,7 @@ namespace BackendCommon
 
         public string[,] GetServers()
         {
-            var goServ = new TcpClient(ip, port);
-            goStream = goServ.GetStream();
+            goStream = initConnection();
             goStream.writeString("getserverlist");
             int serverCount = goStream.readInt();
             int stringCount = goStream.readInt();
@@ -61,14 +64,21 @@ namespace BackendCommon
 
         public bool VerifyUser(string name, string password)
         {
-            var goServ = new TcpClient(ip, port);
-            goStream = goServ.GetStream();
+            goStream = initConnection();
             goStream.writeString("verifyuser");
             goStream.writeString(name);
             goStream.writeString(password);
             var id = goStream.readInt();
-            var key = goStream.readString();
             return goStream.readInt() == 1;
+        }
+
+        public string FileCR(string name)
+        {
+            goStream = initConnection();
+            goStream.writeString("filecr");
+            goStream.writeString(name);
+            var key = goStream.readString();
+            var id = goStream.readInt();
         }
     }
 }

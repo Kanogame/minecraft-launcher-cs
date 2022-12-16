@@ -4,7 +4,8 @@ CREATE TABLE Users (
     username VARCHAR(255) NOT NULL UNIQUE,
     passwrd VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
-    mcusername VARCHAR(255) NOT NULL UNIQUE
+    mcusername VARCHAR(255) NOT NULL UNIQUE,
+    loginkey VARCHAR(16) NOT NULL DEFAULT ''
 )
 
 -- @block 

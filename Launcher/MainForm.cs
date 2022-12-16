@@ -109,12 +109,12 @@ namespace Launcher
 
         private void button3_Click(object sender, EventArgs e)
         {
-            label2.Text = LP.Encode(textBox2.Text, "123");
+            textBox3.Text = LP.Encode(textBox2.Text, "123");
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            label2.Text = LP.Decode(textBox3.Text, "123");
+            textBox2.Text = LP.Decode(textBox3.Text, "123");
         }
     }
 }

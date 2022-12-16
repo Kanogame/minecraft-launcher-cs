@@ -3,6 +3,7 @@ package Launcher
 import (
 	"bufio"
 	Httpserver "main/Http-server"
+	"math/rand"
 	"net"
 	"os"
 	"strconv"
@@ -74,4 +75,27 @@ func verifyuser(conn net.Conn) {
 	} else {
 		writeInt(conn, 0)
 	}
+}
+
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func randSeq(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
+}
+
+func filecr(conn net.Conn) {
+	var name = readString(conn)
+	var db = Httpserver.FindDB("root", "password")
+	if !Httpserver.KeyExist(db, name) {
+		var key = randSeq(16)
+		Httpserver.AddKey(db, name, key)
+		writeString(conn, key)
+	} else {
+		writeString(conn, Httpserver.GetKey(db, name))
+	}
+	writeInt(Httpserver.GetId(db, name))
 }

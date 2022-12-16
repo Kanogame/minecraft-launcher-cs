@@ -80,6 +80,10 @@ namespace Launcher_WPF
                     else
                     {
                         InputBox.Visibility = Visibility.Collapsed;
+                        if (!fileRequest.ReadUserData())
+                        {
+                            GoConn
+                        }
                     }
                 }
                 else

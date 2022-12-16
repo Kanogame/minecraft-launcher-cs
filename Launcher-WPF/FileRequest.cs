@@ -19,10 +19,12 @@ namespace Launcher_WPF
         string defaultGamePath;
         string instanceName = "";
         goConn GoConn;
+        Crypt cr;
 
         public FileRequest(goConn GoConn)
         {
             this.GoConn = GoConn;
+            cr = new Crypt();
             defaultGamePath = Path.Combine(defPath, "instances");
             TempClearing(defaultTempPath);
         }
@@ -30,6 +32,14 @@ namespace Launcher_WPF
         public bool ReadUserData()
         {
             return File.Exists(Path.Combine(defPath, "data", "temp.txt"));
+        }
+
+        public void WriteUserData(int id, string key, string data)
+        {
+            using (StreamWriter sw = new StreamWriter(Path.Combine(defPath, "data", "temp.txt")))
+            {
+                sw.WriteLine(id + "-", cr.Encode(data, key));
+            }
         }
 
         public bool CheckFile(string instanceName)

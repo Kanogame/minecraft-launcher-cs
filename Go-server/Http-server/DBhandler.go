@@ -48,3 +48,28 @@ func CheckPasswd(db *sql.DB, logData UserLogData) bool {
 		return false
 	}
 }
+
+func KeyExist(db *sql.DB, name string) bool {
+	res, err := db.Query("SELECT loginkey FROM Users \nWHERE username = ?", name)
+	if err != nil {
+		panic(err)
+	}
+
+	var dbkey string
+
+	for res.Next() {
+		err := res.Scan(&dbkey)
+		if err != nil {
+			return false
+		}
+	}
+	return dbkey != ""
+}
+
+func AddKey(db *sql.DB, name string, key string) {
+	res, err := db.Exec("UPDATE Users SET loginkey = ? WHERE username = ?", key, name)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(res)
+}

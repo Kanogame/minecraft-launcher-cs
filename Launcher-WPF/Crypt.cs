@@ -4,19 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Launcher
+namespace Launcher_WPF
 {
-    public class L_P
+    public class Crypt
     {
-        int id;
-        string passwd;
-
-        public L_P(int id, string passwd)
-        {
-            this.id = id;
-            this.passwd = passwd;
-        }
-
         public string Encode(string value, string key)
         {
             byte[] keyB = Encoding.Unicode.GetBytes(key);
