@@ -34,11 +34,14 @@ namespace Launcher_WPF
             return File.Exists(Path.Combine(defPath, "data", "temp.txt"));
         }
 
-        public void WriteUserData(int id, string key, string data)
+        public void WriteUserData(string name, string password)
         {
+            var data = GoConn.FileCR(name, password);
+            int id = int.Parse(data[0]);
+            string key = data[1];
             using (StreamWriter sw = new StreamWriter(Path.Combine(defPath, "data", "temp.txt")))
             {
-                sw.WriteLine(id + "-", cr.Encode(data, key));
+                sw.WriteLine(id + "-" + cr.Encode(password, key));
             }
         }
 

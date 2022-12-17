@@ -2,6 +2,7 @@ package Launcher
 
 import (
 	"bufio"
+	"fmt"
 	Httpserver "main/Http-server"
 	"math/rand"
 	"net"
@@ -71,8 +72,10 @@ func verifyuser(conn net.Conn) {
 	var db = Httpserver.FindDB("root", "password")
 	var res = Httpserver.CheckPasswd(db, data)
 	if res {
+		fmt.Println("user logged in")
 		writeInt(conn, 1)
 	} else {
+		fmt.Println("user error")
 		writeInt(conn, 0)
 	}
 }
@@ -84,6 +87,7 @@ func randSeq(n int) string {
 	for i := range b {
 		b[i] = letters[rand.Intn(len(letters))]
 	}
+	fmt.Println("new key is ", b)
 	return string(b)
 }
 
@@ -97,5 +101,6 @@ func filecr(conn net.Conn) {
 	} else {
 		writeString(conn, Httpserver.GetKey(db, name))
 	}
-	writeInt(Httpserver.GetId(db, name))
+	writeInt(conn, Httpserver.GetId(db, name))
+	fmt.Println("done")
 }

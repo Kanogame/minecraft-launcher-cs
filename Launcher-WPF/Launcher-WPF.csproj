@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="CreateCard.cs" />
     <Compile Include="FileRequest.cs" />
+    <Compile Include="Crypt.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

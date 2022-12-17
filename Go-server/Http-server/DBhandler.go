@@ -50,19 +50,7 @@ func CheckPasswd(db *sql.DB, logData UserLogData) bool {
 }
 
 func KeyExist(db *sql.DB, name string) bool {
-	res, err := db.Query("SELECT loginkey FROM Users \nWHERE username = ?", name)
-	if err != nil {
-		panic(err)
-	}
-
-	var dbkey string
-
-	for res.Next() {
-		err := res.Scan(&dbkey)
-		if err != nil {
-			return false
-		}
-	}
+	var dbkey = GetKey(db, name)
 	return dbkey != ""
 }
 
@@ -72,4 +60,38 @@ func AddKey(db *sql.DB, name string, key string) {
 		panic(err)
 	}
 	fmt.Println(res)
+}
+
+func GetKey(db *sql.DB, name string) string {
+	res, err := db.Query("SELECT loginkey FROM Users \nWHERE username = ?", name)
+	if err != nil {
+		panic(err)
+	}
+	var dbkey string
+
+	for res.Next() {
+		err := res.Scan(&dbkey)
+		if err != nil {
+			panic(err)
+		}
+	}
+	fmt.Println("key is ", dbkey)
+	return dbkey
+}
+
+func GetId(db *sql.DB, name string) int {
+	res, err := db.Query("SELECT id FROM Users \nWHERE username = ?", name)
+	if err != nil {
+		panic(err)
+	}
+	var dbid int
+
+	for res.Next() {
+		err := res.Scan(&dbid)
+		if err != nil {
+			panic(err)
+		}
+	}
+	fmt.Println("id is ", dbid)
+	return dbid
 }

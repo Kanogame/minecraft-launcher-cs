@@ -82,7 +82,7 @@ namespace Launcher_WPF
                         InputBox.Visibility = Visibility.Collapsed;
                         if (!fileRequest.ReadUserData())
                         {
-                            GoConn
+                            fileRequest.WriteUserData(inpBox.Text, pasBox.Text);
                         }
                     }
                 }

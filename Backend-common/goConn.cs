@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BackendCommon
 {
@@ -68,17 +69,29 @@ namespace BackendCommon
             goStream.writeString("verifyuser");
             goStream.writeString(name);
             goStream.writeString(password);
-            var id = goStream.readInt();
             return goStream.readInt() == 1;
         }
 
-        public string FileCR(string name)
+        public string[] FileCR(string name, string password)
         {
-            goStream = initConnection();
-            goStream.writeString("filecr");
-            goStream.writeString(name);
-            var key = goStream.readString();
-            var id = goStream.readInt();
+            if(VerifyUser(name, password))
+            {
+                goStream = initConnection();
+                goStream.writeString("filecr");
+                goStream.writeString(name);
+                string key = goStream.readString();
+                int id = goStream.readInt();
+                MessageBox.Show(key);
+                MessageBox.Show(id.ToString());
+                return new string[2]
+                {
+                    id.ToString(), key
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
