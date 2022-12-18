@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.IO.Compression;
+using System.Windows.Input;
 
 namespace Launcher_WPF
 {
@@ -42,6 +43,14 @@ namespace Launcher_WPF
             using (StreamWriter sw = new StreamWriter(Path.Combine(defPath, "data", "temp.txt")))
             {
                 sw.WriteLine(id + "-" + cr.Encode(password, key));
+            }
+        }
+
+        public bool SendUserData()
+        {
+            using (StreamReader sr = new StreamReader(Path.Combine(defPath, "data", "temp.txt")))
+            {
+                return GoConn.WriteData(sr.ReadLine());
             }
         }
 

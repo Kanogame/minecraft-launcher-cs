@@ -35,9 +35,17 @@ namespace Launcher_WPF
 
         private void Initialize()
         {
-            //TODO: сделать систему сохранения и шифрации логин пароль
-            //DeepTODO: сделать систему синхронизации ключей по отдельной базе
-            InputBox.Visibility = Visibility.Visible;
+            if (fileRequest.ReadUserData())
+            {
+                if (!fileRequest.SendUserData())
+                {
+                    InputBox.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                InputBox.Visibility = Visibility.Visible;
+            }
         }
 
         private void LoadServerList()

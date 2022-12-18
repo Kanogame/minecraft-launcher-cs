@@ -95,3 +95,19 @@ func GetId(db *sql.DB, name string) int {
 	fmt.Println("id is ", dbid)
 	return dbid
 }
+
+func GetNameByID(db *sql.DB, id int) string {
+	res, err := db.Query("SELECT username FROM Users \nWHERE id = ?", id)
+	if err != nil {
+		panic(err)
+	}
+	var name string
+
+	for res.Next() {
+		err := res.Scan(&name)
+		if err != nil {
+			panic(err)
+		}
+	}
+	return name
+}

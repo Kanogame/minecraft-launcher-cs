@@ -12,6 +12,8 @@ func HandleServer() {
 
 	defer ln.Close()
 
+	fmt.Println(decryptPW("OMKRw5HDrcKCFWnCnlY=", "123"))
+
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
@@ -28,6 +30,8 @@ func HandleServer() {
 			verifyuser(conn)
 		case "filecr":
 			filecr(conn)
+		case "decrypt":
+			decrypt(conn)
 		}
 		conn.Close()
 	}

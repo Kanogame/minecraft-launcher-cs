@@ -1,12 +1,12 @@
-C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\bin\Debug\Backend-common.dll
-C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\bin\Debug\Backend-common.pdb
-C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\BackendCommon.csproj.AssemblyReference.cache
-C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\BackendCommon.csproj.CoreCompileInputs.cache
-C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\Backend-common.dll
-C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\Backend-common.pdb
 C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Backend-common\bin\Debug\Backend-common.dll
 C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Backend-common\bin\Debug\Backend-common.pdb
 C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Backend-common\obj\Debug\BackendCommon.csproj.AssemblyReference.cache
 C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Backend-common\obj\Debug\BackendCommon.csproj.CoreCompileInputs.cache
 C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Backend-common\obj\Debug\Backend-common.dll
 C:\Users\Win10\Desktop\Программирование\Web пнчт\Иванов Александр\minecraft-launcher-cs\Backend-common\obj\Debug\Backend-common.pdb
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\bin\Debug\Backend-common.dll
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\bin\Debug\Backend-common.pdb
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\BackendCommon.csproj.AssemblyReference.cache
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\BackendCommon.csproj.CoreCompileInputs.cache
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\Backend-common.dll
+C:\Users\OneSmiLe\source\repos\Launcher\Backend-common\obj\Debug\Backend-common.pdb

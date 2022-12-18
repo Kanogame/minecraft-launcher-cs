@@ -2,7 +2,10 @@ package Launcher
 
 import (
 	"bufio"
+	"crypto/rc4"
+	"encoding/base64"
 	"fmt"
+	"log"
 	Httpserver "main/Http-server"
 	"math/rand"
 	"net"
@@ -103,4 +106,98 @@ func filecr(conn net.Conn) {
 	}
 	writeInt(conn, Httpserver.GetId(db, name))
 	fmt.Println("done")
+}
+
+func decrypt(conn net.Conn) {
+	var data = readString(conn)
+	fmt.Println(data)
+	var id, encpass = parseData(data)
+	var db = Httpserver.FindDB("root", "password")
+	var userdata Httpserver.UserLogData
+	userdata.Name = Httpserver.GetNameByID(db, id)
+	userdata.Password = decryptPW(encpass, Httpserver.GetKey(db, userdata.Name))
+	fmt.Println(userdata.Name, userdata.Password)
+	if Httpserver.CheckPasswd(db, userdata) {
+		fmt.Println("user logged in")
+		writeInt(conn, 1)
+	} else {
+		fmt.Println("user error")
+		writeInt(conn, 0)
+	}
+}
+
+func parseData(data string) (id int, passwd string) {
+	var ids string
+	var i = 0
+	for i < len(data) {
+		if string(data[i]) == "-" {
+			break
+		}
+		ids += string(data[i])
+		i++
+	}
+
+	for i < len(data) {
+		if !(string(data[i]) == "-") {
+			passwd += string(data[i])
+		}
+		i++
+	}
+	id, err := strconv.Atoi(ids)
+	if err != nil {
+		panic(err)
+	}
+
+	return
+}
+
+func decryptPW(passwd string, key string) string {
+	data, err := base64.StdEncoding.DecodeString(passwd)
+	if err != nil {
+		log.Fatal("error:", err)
+	}
+
+	c, err := rc4.NewCipher([]byte(key))
+	if err != nil {
+		panic(err)
+	}
+
+	var src2 []byte
+	c.XORKeyStream(src2, data)
+	fmt.Println("Plaintext': ", src2)
+	return string(src2)
+}
+
+func Encrypt(pwd []byte, data []byte) []byte {
+	var a, i, j, k, tmp int
+
+	var key = make([]int, 256)
+	var box = make([]int, 256)
+	var cipher = make([]byte, len(data))
+
+	for i = 0; i < 256; i++ {
+		key[i] = pwd[i%len(pwd)]
+		box[i] = i
+	}
+	i = 0
+	for j = 0; i < 256; i++ {
+		j = (j + box[i] + key[i]) % 256
+		tmp = box[i]
+		box[i] = box[j]
+		box[j] = tmp
+	}
+	i = 0
+	j = 0
+	for a = 0; i < len(data); i++ {
+		a++
+		a %= 256
+		j += box[a]
+		j %= 256
+		tmp = box[a]
+		box[a] = box[j]
+		box[j] = tmp
+		k = box[((box[a] + box[j]) % 256)]
+		cipher[i] = byte(data[i] * *k)
+	}
+	return cipher
 }

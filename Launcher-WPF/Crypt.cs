@@ -10,18 +10,13 @@ namespace Launcher_WPF
     {
         public string Encode(string value, string key)
         {
-            byte[] keyB = Encoding.Unicode.GetBytes(key);
-            byte[] valueB = Encoding.Unicode.GetBytes(value);
-            byte[] result = Encrypt(keyB, valueB);
+            byte[] result = Decrypt(Encoding.Unicode.GetBytes(key), Encoding.Unicode.GetBytes(value));
             return ParseFromStr(Convert.ToBase64String(result));
         }
 
         public string Decode(string value, string key)
         {
-            value = Encoding.Unicode.GetString(Convert.FromBase64String(ParseToStr(value)));
-            byte[] keyB = Encoding.Unicode.GetBytes(key);
-            byte[] valueB = Encoding.Unicode.GetBytes(value);
-            byte[] result = Decrypt(keyB, valueB);
+            byte[] result = Encrypt(Encoding.Unicode.GetBytes(key), Convert.FromBase64String(ParseToStr(value)));
             return Encoding.Unicode.GetString(result);
         }
 

@@ -93,5 +93,13 @@ namespace BackendCommon
                 return null;
             }
         }
+
+        public bool WriteData(string data)
+        {
+            goStream = initConnection();
+            goStream.writeString("decrypt");
+            goStream.writeString(data);
+            return goStream.readInt() == 1;
+        }
     }
 }
