@@ -30,7 +30,7 @@ namespace Launcher
 
         public MainForm()
         {
-            LP = new L_P(1, "123");
+            LP = new L_P();
             InitializeComponent();
             //thisClientId = Guid.NewGuid();
             //GoConn = new goConn("127.0.0.1", 8081);

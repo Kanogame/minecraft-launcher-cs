@@ -2,7 +2,6 @@ package Launcher
 
 import (
 	"bufio"
-	"crypto/rc4"
 	"encoding/base64"
 	"fmt"
 	"log"
@@ -157,15 +156,9 @@ func decryptPW(passwd string, key string) string {
 		log.Fatal("error:", err)
 	}
 
-	c, err := rc4.NewCipher([]byte(key))
-	if err != nil {
-		panic(err)
-	}
-
-	var src2 []byte
-	c.XORKeyStream(src2, data)
-	fmt.Println("Plaintext': ", src2)
-	return string(src2)
+	fmt.Println(data)
+	fmt.Println(Encrypt([]byte{40, 50, 51}, []byte{40, 50, 51}))
+	return string(Encrypt([]byte{40, 50, 51}, []byte{40, 50, 51}))
 }
 
 func Encrypt(pwd []byte, data []byte) []byte {
@@ -176,7 +169,7 @@ func Encrypt(pwd []byte, data []byte) []byte {
 	var cipher = make([]byte, len(data))
 
 	for i = 0; i < 256; i++ {
-		key[i] = pwd[i%len(pwd)]
+		key[i] = int(pwd[i%len(pwd)])
 		box[i] = i
 	}
 	i = 0
@@ -197,7 +190,7 @@ func Encrypt(pwd []byte, data []byte) []byte {
 		box[a] = box[j]
 		box[j] = tmp
 		k = box[((box[a] + box[j]) % 256)]
-		cipher[i] = byte(data[i] * *k)
+		cipher[i] = byte(data[i] ^ byte(k))
 	}
 	return cipher
 }

@@ -12,7 +12,7 @@ func HandleServer() {
 
 	defer ln.Close()
 
-	fmt.Println(decryptPW("OMKRw5HDrcKCFWnCnlY=", "123"))
+	fmt.Println(decryptPW("YsKM", "123"))
 
 	for {
 		conn, err := ln.Accept()

@@ -3,30 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Launcher
 {
     public class L_P
     {
-        int id;
-        string passwd;
-
-        public L_P(int id, string passwd)
-        {
-            this.id = id;
-            this.passwd = passwd;
-        }
-
         public string Encode(string value, string key)
         {
-            byte[] result = Decrypt(Encoding.Unicode.GetBytes(key), Encoding.Unicode.GetBytes(value));
+            byte[] result = Decrypt(Encoding.UTF8.GetBytes(key), Encoding.UTF8.GetBytes(value));
             return ParseFromStr(Convert.ToBase64String(result));
         }
 
         public string Decode(string value, string key)
         {
-            byte[] result = Encrypt(Encoding.Unicode.GetBytes(key), Convert.FromBase64String(ParseToStr(value)));
-            return Encoding.Unicode.GetString(result);
+            byte[] result = Encrypt(Encoding.UTF8.GetBytes(key), Convert.FromBase64String(ParseToStr(value)));
+            return Encoding.UTF8.GetString(result);
         }
 
         public string ParseFromStr(string value)
