@@ -18,7 +18,7 @@ func FindDB(user string, password string) *sql.DB {
 }
 
 func RegNewUser(db *sql.DB, data UserRegData) bool {
-	res, err := db.Exec(fmt.Sprintf("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('%v', '%v', '%v', '%v')", data.Name, data.Password, data.Email, data.Mcusername))
+	res, err := db.Exec(fmt.Sprintf("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('?', '?', '?', '?')", data.Name, data.Password, data.Email, data.Mcusername))
 	if err != nil {
 		return false
 	}
@@ -110,4 +110,12 @@ func GetNameByID(db *sql.DB, id int) string {
 		}
 	}
 	return name
+}
+
+func GetIdByToken(db *sql.DB, id int) string {
+	res, err := db.
+}
+
+func AddToken(db *sql.DB, id int, token string, passhash string) {
+	
 }

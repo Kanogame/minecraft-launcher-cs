@@ -155,10 +155,7 @@ func decryptPW(passwd string, key string) string {
 	if err != nil {
 		log.Fatal("error:", err)
 	}
-
-	fmt.Println(data)
-	fmt.Println(Encrypt([]byte{40, 50, 51}, []byte{40, 50, 51}))
-	return string(Encrypt([]byte{40, 50, 51}, []byte{40, 50, 51}))
+	return string(Encrypt([]byte(key), data))
 }
 
 func Encrypt(pwd []byte, data []byte) []byte {
@@ -190,7 +187,7 @@ func Encrypt(pwd []byte, data []byte) []byte {
 		box[a] = box[j]
 		box[j] = tmp
 		k = box[((box[a] + box[j]) % 256)]
-		cipher[i] = byte(data[i] ^ byte(k))
+		cipher[i] = byte(int(data[i]) ^ k)
 	}
 	return cipher
 }

@@ -20,4 +20,14 @@ VALUES
 SELECT * FROM Users;
 
 -- @block
-DROP TABLE Users
+DROP TABLE Users;
+
+--@block
+CREATE TABLE Token (
+    tokenid INT PRIMARY KEY AUTO_INCREMENT,
+    token VARCHAR(255) NOT NULL UNIQUE,
+    passhash VARCHAR(255) NOT NULL UNIQUE,
+    id INT NOT NULL,
+)
+
+SELECT * FROM Token;
