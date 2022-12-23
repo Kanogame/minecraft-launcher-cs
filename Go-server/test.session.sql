@@ -22,12 +22,13 @@ SELECT * FROM Users;
 -- @block
 DROP TABLE Users;
 
---@block
+-- @block
 CREATE TABLE Token (
     tokenid INT PRIMARY KEY AUTO_INCREMENT,
     token VARCHAR(255) NOT NULL UNIQUE,
     passhash VARCHAR(255) NOT NULL UNIQUE,
-    id INT NOT NULL,
+    id INT NOT NULL
 )
 
+-- @block
 SELECT * FROM Token;

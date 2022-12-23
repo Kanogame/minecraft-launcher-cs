@@ -12,8 +12,6 @@ func HandleServer() {
 
 	defer ln.Close()
 
-	fmt.Println(decryptPW("YsKM", "123"))
-
 	for {
 		conn, err := ln.Accept()
 		if err != nil {

@@ -3,22 +3,27 @@ package Httpserver
 import (
 	"database/sql"
 	"fmt"
+	utils "main/Utils"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func FindDB(user string, password string) *sql.DB {
-	db, err := sql.Open("mysql", user+":"+password+"@tcp(localhost:3306)/userdata")
+func errorHandler(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func FindDB(user string, password string) *sql.DB {
+	db, err := sql.Open("mysql", user+":"+password+"@tcp(localhost:3306)/userdata")
+	errorHandler(err)
 
 	fmt.Println("подключено")
 	return db
 }
 
 func RegNewUser(db *sql.DB, data UserRegData) bool {
-	res, err := db.Exec(fmt.Sprintf("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('?', '?', '?', '?')", data.Name, data.Password, data.Email, data.Mcusername))
+	res, err := db.Exec("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('?', '?', '?', '?')", data.Name, data.Password, data.Email, data.Mcusername)
 	if err != nil {
 		return false
 	}
@@ -28,9 +33,7 @@ func RegNewUser(db *sql.DB, data UserRegData) bool {
 
 func CheckPasswd(db *sql.DB, logData UserLogData) bool {
 	res, err := db.Query("SELECT username, passwrd FROM Users \nWHERE username = ?", logData.Name)
-	if err != nil {
-		panic(err)
-	}
+	errorHandler(err)
 
 	var user UserLogData
 
@@ -56,24 +59,18 @@ func KeyExist(db *sql.DB, name string) bool {
 
 func AddKey(db *sql.DB, name string, key string) {
 	res, err := db.Exec("UPDATE Users SET loginkey = ? WHERE username = ?", key, name)
-	if err != nil {
-		panic(err)
-	}
+	errorHandler(err)
 	fmt.Println(res)
 }
 
 func GetKey(db *sql.DB, name string) string {
 	res, err := db.Query("SELECT loginkey FROM Users \nWHERE username = ?", name)
-	if err != nil {
-		panic(err)
-	}
+	errorHandler(err)
 	var dbkey string
 
 	for res.Next() {
 		err := res.Scan(&dbkey)
-		if err != nil {
-			panic(err)
-		}
+		errorHandler(err)
 	}
 	fmt.Println("key is ", dbkey)
 	return dbkey
@@ -81,16 +78,12 @@ func GetKey(db *sql.DB, name string) string {
 
 func GetId(db *sql.DB, name string) int {
 	res, err := db.Query("SELECT id FROM Users \nWHERE username = ?", name)
-	if err != nil {
-		panic(err)
-	}
+	errorHandler(err)
 	var dbid int
 
 	for res.Next() {
 		err := res.Scan(&dbid)
-		if err != nil {
-			panic(err)
-		}
+		errorHandler(err)
 	}
 	fmt.Println("id is ", dbid)
 	return dbid
@@ -98,24 +91,42 @@ func GetId(db *sql.DB, name string) int {
 
 func GetNameByID(db *sql.DB, id int) string {
 	res, err := db.Query("SELECT username FROM Users \nWHERE id = ?", id)
-	if err != nil {
-		panic(err)
-	}
+	errorHandler(err)
 	var name string
 
 	for res.Next() {
 		err := res.Scan(&name)
-		if err != nil {
-			panic(err)
-		}
+		errorHandler(err)
 	}
 	return name
 }
 
 func GetIdByToken(db *sql.DB, id int) string {
-	res, err := db.
+	res, err := db.Query("SELECT token FROM Token \nWHERE id = ?", id)
+	errorHandler(err)
+
+	var token string
+	for res.Next() {
+		err := res.Scan(&token)
+		errorHandler(err)
+	}
+	return token
 }
 
-func AddToken(db *sql.DB, id int, token string, passhash string) {
-	
+func AddToken(db *sql.DB, id int, data utils.TokenData) {
+	res, err := db.Exec("INSERT INTO Token (token, passhash, id) VALUES('?', '?', '?')", data.Token, data.Passhash, id)
+	errorHandler(err)
+	fmt.Println(res)
+}
+
+func verifyToken(db *sql.DB, data utils.TokenData) bool {
+	res, err := db.Query("SELECT passhash FROM Token \nWHERE token = ?", data.Token)
+	errorHandler(err)
+
+	var passhash string
+	for res.Next() {
+		err := res.Scan(&passhash)
+		errorHandler(err)
+	}
+	return data.Passhash == passhash
 }
