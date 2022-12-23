@@ -38,6 +38,6 @@ func RandSeq(n int) string {
 	for i := range b {
 		b[i] = letters[rand.Intn(len(letters))]
 	}
-	fmt.Println("new key is ", b)
+	fmt.Println("new key is ", string(b))
 	return string(b)
 }

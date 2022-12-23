@@ -35,16 +35,10 @@ namespace Launcher_WPF
 
         private void Initialize()
         {
-            if (fileRequest.ReadUserData())
+            InputBox.Visibility = Visibility.Visible;
+            if (fileRequest.ReadUserData() && fileRequest.SendUserData())
             {
-                if (!fileRequest.SendUserData())
-                {
                     InputBox.Visibility = Visibility.Collapsed;
-                }
-            }
-            else
-            {
-                InputBox.Visibility = Visibility.Visible;
             }
         }
 

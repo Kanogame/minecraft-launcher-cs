@@ -23,7 +23,7 @@ func FindDB(user string, password string) *sql.DB {
 }
 
 func RegNewUser(db *sql.DB, data UserRegData) bool {
-	res, err := db.Exec("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('?', '?', '?', '?')", data.Name, data.Password, data.Email, data.Mcusername)
+	res, err := db.Exec(fmt.Sprintf("INSERT INTO Users (username, passwrd, email, mcusername) VALUES('%v', '%v', '%v', '%v')", data.Name, data.Password, data.Email, data.Mcusername))
 	if err != nil {
 		return false
 	}
@@ -114,14 +114,17 @@ func GetIdByToken(db *sql.DB, id int) string {
 }
 
 func AddToken(db *sql.DB, id int, data utils.TokenData) {
-	res, err := db.Exec("INSERT INTO Token (token, passhash, id) VALUES('?', '?', '?')", data.Token, data.Passhash, id)
+	fmt.Println(data, id)
+	res, err := db.Exec(fmt.Sprintf("INSERT INTO Token (token, passhash, id) VALUES('%v', '%v', '%v')", data.Token, data.Passhash, id))
 	errorHandler(err)
 	fmt.Println(res)
 }
 
-func verifyToken(db *sql.DB, data utils.TokenData) bool {
+func VerifyToken(db *sql.DB, data utils.TokenData) bool {
 	res, err := db.Query("SELECT passhash FROM Token \nWHERE token = ?", data.Token)
-	errorHandler(err)
+	if err != nil {
+		return false
+	}
 
 	var passhash string
 	for res.Next() {

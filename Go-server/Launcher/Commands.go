@@ -2,6 +2,8 @@ package Launcher
 
 import (
 	"bufio"
+	"crypto/sha1"
+	"database/sql"
 	"fmt"
 	Httpserver "main/Http-server"
 	Utils "main/Utils"
@@ -9,6 +11,29 @@ import (
 	"os"
 	"strconv"
 )
+
+func verifyToken(conn net.Conn, db *sql.DB) bool {
+	var token = readString(conn)
+	var passhash = readString(conn)
+	var data = Utils.TokenData{
+		Token:    token,
+		Passhash: passhash,
+	}
+	return Httpserver.VerifyToken(db, data)
+}
+
+func addToken(conn net.Conn, db *sql.DB, id int) {
+	var token = Utils.RandSeq(64)
+	var tokenPassword = Utils.RandSeq(16)
+	passhash := sha1.Sum([]byte(tokenPassword))
+	var data = Utils.TokenData{
+		Token:    token,
+		Passhash: fmt.Sprintf("%x\n", passhash),
+	}
+	Httpserver.AddToken(db, id, data)
+	writeString(conn, token)
+	writeString(conn, tokenPassword)
+}
 
 func getServerList(conn net.Conn) {
 	file, err1 := os.Open("./Configs/ServerList.txt")
@@ -74,6 +99,7 @@ func verifyuser(conn net.Conn) {
 	if res {
 		fmt.Println("user logged in")
 		writeInt(conn, 1)
+		addToken(conn, db, Httpserver.GetId(db, data.Name))
 	} else {
 		fmt.Println("user error")
 		writeInt(conn, 0)
@@ -81,24 +107,26 @@ func verifyuser(conn net.Conn) {
 }
 
 func filecr(conn net.Conn) {
-	var name = readString(conn)
 	var db = Httpserver.FindDB("root", "password")
-	if !Httpserver.KeyExist(db, name) {
-		var key = Utils.RandSeq(16)
-		Httpserver.AddKey(db, name, key)
-		writeString(conn, key)
-	} else {
-		writeString(conn, Httpserver.GetKey(db, name))
+	if verifyToken(conn, db) {
+		var name = readString(conn)
+		if !Httpserver.KeyExist(db, name) {
+			var key = Utils.RandSeq(16)
+			Httpserver.AddKey(db, name, key)
+			writeString(conn, key)
+		} else {
+			writeString(conn, Httpserver.GetKey(db, name))
+		}
+		writeInt(conn, Httpserver.GetId(db, name))
+		fmt.Println("done")
 	}
-	writeInt(conn, Httpserver.GetId(db, name))
-	fmt.Println("done")
 }
 
 func decrypt(conn net.Conn) {
+	var db = Httpserver.FindDB("root", "password")
 	var data = readString(conn)
 	fmt.Println(data)
 	var id, encpass = Utils.ParseData(data)
-	var db = Httpserver.FindDB("root", "password")
 	var userdata Httpserver.UserLogData
 	userdata.Name = Httpserver.GetNameByID(db, id)
 	userdata.Password = Utils.DecryptPW(encpass, Httpserver.GetKey(db, userdata.Name))

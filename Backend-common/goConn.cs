@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace BackendCommon
 {
@@ -14,6 +17,9 @@ namespace BackendCommon
     {
         private string ip;
         private int port;
+
+        private string token;
+        private string tokenPWD;
 
         private NetworkStream goStream;
 
@@ -27,14 +33,6 @@ namespace BackendCommon
         {
             var goServ = new TcpClient(ip, port);
             return goServ.GetStream();
-        }
-
-        public bool WriteAcc(string data)
-        {
-            goStream = initConnection();
-            goStream.writeString("sacc");
-            goStream.writeString(data);
-            return goStream.readInt() == 1;
         }
 
         public TcpClient GetBackIp()
@@ -69,14 +67,30 @@ namespace BackendCommon
             goStream.writeString("verifyuser");
             goStream.writeString(name);
             goStream.writeString(password);
+            if (goStream.readInt() == 1)
+            {
+                token = goStream.readString();
+                tokenPWD = goStream.readString();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool VerifyToken(string token, string tokenPWD, NetworkStream goStream)
+        {
+            goStream.writeString(token);
+            goStream.writeString(GetHash(tokenPWD));
             return goStream.readInt() == 1;
         }
 
         public string[] FileCR(string name, string password)
         {
-            if(VerifyUser(name, password))
+            goStream = initConnection();
+            if (VerifyToken(token, tokenPWD, goStream))
             {
-                goStream = initConnection();
                 goStream.writeString("filecr");
                 goStream.writeString(name);
                 string key = goStream.readString();
@@ -88,10 +102,8 @@ namespace BackendCommon
                     id.ToString(), key
                 };
             }
-            else
-            {
-                return null;
-            }
+            MessageBox.Show("сессия устарела");
+            return null;
         }
 
         public bool WriteData(string data)
@@ -100,6 +112,12 @@ namespace BackendCommon
             goStream.writeString("decrypt");
             goStream.writeString(data);
             return goStream.readInt() == 1;
+        }
+
+        private string GetHash(string value)
+        {
+            var hash = new SHA1Managed().ComputeHash(Encoding.UTF8.GetBytes(value));
+            return string.Concat(hash.Select(b => b.ToString("x2")));
         }
     }
 }
