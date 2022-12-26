@@ -2,6 +2,7 @@ package Utils
 
 import (
 	"encoding/base64"
+	"fmt"
 	"log"
 )
 
@@ -44,5 +45,7 @@ func DecryptPW(passwd string, key string) string {
 	if err != nil {
 		log.Fatal("error:", err)
 	}
-	return string(Encrypt([]byte(key), data))
+	var res = passLateParse(string(Encrypt([]byte(key), data)))
+	fmt.Println(string(Encrypt([]byte(key), data)))
+	return res
 }

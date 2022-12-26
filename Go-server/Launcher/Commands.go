@@ -15,11 +15,18 @@ import (
 func verifyToken(conn net.Conn, db *sql.DB) bool {
 	var token = readString(conn)
 	var passhash = readString(conn)
+	fmt.Println(token, passhash)
 	var data = Utils.TokenData{
 		Token:    token,
 		Passhash: passhash,
 	}
-	return Httpserver.VerifyToken(db, data)
+	if Httpserver.VerifyToken(db, data) {
+		writeInt(conn, 1)
+		return true
+	} else {
+		writeInt(conn, 0)
+		return false
+	}
 }
 
 func addToken(conn net.Conn, db *sql.DB, id int) {

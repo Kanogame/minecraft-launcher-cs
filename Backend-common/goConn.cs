@@ -69,8 +69,9 @@ namespace BackendCommon
             goStream.writeString(password);
             if (goStream.readInt() == 1)
             {
-                token = goStream.readString();
-                tokenPWD = goStream.readString();
+                token = goStream.readString(); //yes
+                tokenPWD = goStream.readString(); //yes
+                MessageBox.Show(token, tokenPWD);
                 return true;
             }
             else
@@ -89,9 +90,9 @@ namespace BackendCommon
         public string[] FileCR(string name, string password)
         {
             goStream = initConnection();
+            goStream.writeString("filecr");
             if (VerifyToken(token, tokenPWD, goStream))
             {
-                goStream.writeString("filecr");
                 goStream.writeString(name);
                 string key = goStream.readString();
                 int id = goStream.readInt();

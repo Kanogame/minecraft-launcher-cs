@@ -41,3 +41,14 @@ func RandSeq(n int) string {
 	fmt.Println("new key is ", string(b))
 	return string(b)
 }
+
+func passLateParse(password string) (res string) {
+	for i := 0; i < len(password); i++ {
+		if string(password[i]) != " " {
+			fmt.Println(string(password[i]) != " ")
+			fmt.Println(string(password[i]))
+			res += string(password[i])
+		}
+	}
+	return res
+}

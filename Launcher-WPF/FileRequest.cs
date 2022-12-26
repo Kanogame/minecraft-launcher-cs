@@ -38,11 +38,14 @@ namespace Launcher_WPF
         public void WriteUserData(string name, string password)
         {
             var data = GoConn.FileCR(name, password);
-            int id = int.Parse(data[0]);
-            string key = data[1];
-            using (StreamWriter sw = new StreamWriter(Path.Combine(defPath, "data", "temp.txt")))
+            if (data != null) 
             {
-                sw.WriteLine(id + "-" + cr.Encode(password, key));
+                int id = int.Parse(data[0]);
+                string key = data[1];
+                using (StreamWriter sw = new StreamWriter(Path.Combine(defPath, "data", "temp.txt")))
+                {
+                    sw.WriteLine(id + "-" + cr.Encode(password, key));
+                }
             }
         }
 

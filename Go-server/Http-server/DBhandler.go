@@ -131,5 +131,5 @@ func VerifyToken(db *sql.DB, data utils.TokenData) bool {
 		err := res.Scan(&passhash)
 		errorHandler(err)
 	}
-	return data.Passhash == passhash
+	return data.Passhash == passhash[:len(passhash)-1]
 }
