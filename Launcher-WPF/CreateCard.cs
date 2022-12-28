@@ -7,12 +7,15 @@ using System.Windows.Controls;
 using System.Windows.Media.Media3D;
 using System.Windows.Media;
 using System.Windows;
+using BackendCommon;
 
 namespace Launcher_WPF
 {
     internal class CreateCard
     {
         private int height = 160;
+
+        private Colors Cols;
 
         private FontFamily RobotoBold = new FontFamily(new Uri("file://Fonts/Roboto-Bold.ttf"), "RobotoBold");
         private FontFamily RobotoRegular = new FontFamily(new Uri("file://Fonts/Roboto-Regular.ttf"), "RobotoRegular");
@@ -24,6 +27,20 @@ namespace Launcher_WPF
         {
             this.ServersCol = ServersCol;
             this.ServerList = ServerList;
+        }
+
+        public void InitCards(string[,] ServersList)
+        {
+            Cols = new Colors();
+            var gradientColors = Cols.GetColor();
+            for (int i = 0; i < ServersList.GetLength(0); i++)
+            {
+                CreateServerCard(GradientCreator(gradientColors[0], gradientColors[1]),
+                    ServersList[i, 0],
+                    ServersList[i, 1],
+                    ServersList[i, 2],
+                    ServersList[i, 3]);
+            }
         }
 
         public void CreateServerCard(LinearGradientBrush GradientBrush, string Name, string ip, string Version, string Desc)

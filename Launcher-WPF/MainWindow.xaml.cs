@@ -41,6 +41,7 @@ namespace Launcher_WPF
             if (fileRequest.ReadUserData() && fileRequest.SendUserData())
             {
                 InputBox.Visibility = Visibility.Collapsed;
+                LoadServerList();
             }
         }
 
@@ -48,16 +49,7 @@ namespace Launcher_WPF
         {
             try
             { 
-                var ServersList = GoConn.GetServers();
-
-                for (int i = 0; i < ServersList.GetLength(0); i++)
-                {
-                    createCard.CreateServerCard(createCard.GradientCreator(Color.FromRgb(91, 195, 255), Color.FromRgb(58, 160, 255)),
-                        ServersList[i, 0],
-                        ServersList[i, 1],
-                        ServersList[i, 2],
-                        ServersList[i, 3]);
-                }
+                createCard.InitCards(GoConn.GetServers());
             }
             catch (Exception)
             {
@@ -65,10 +57,6 @@ namespace Launcher_WPF
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -95,6 +83,26 @@ namespace Launcher_WPF
                     MessageBox.Show("Вы совершили слишком много попыток, вы были забаненый нахуй");
                 }
             }
-        } 
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

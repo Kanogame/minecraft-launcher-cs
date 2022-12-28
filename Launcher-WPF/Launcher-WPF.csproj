@@ -68,6 +68,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Colors.cs" />
     <Compile Include="CreateCard.cs" />
     <Compile Include="FileRequest.cs" />
     <Compile Include="Crypt.cs" />
@@ -129,6 +130,12 @@
       <Project>{933ad176-90e3-4553-af47-4c52c1710e11}</Project>
       <Name>BackendCommon</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Min.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
