@@ -40,7 +40,7 @@ namespace Launcher_WPF
             InputBox.Visibility = Visibility.Visible;
             if (fileRequest.ReadUserData() && fileRequest.SendUserData())
             {
-                    InputBox.Visibility = Visibility.Collapsed;
+                InputBox.Visibility = Visibility.Collapsed;
             }
         }
 
