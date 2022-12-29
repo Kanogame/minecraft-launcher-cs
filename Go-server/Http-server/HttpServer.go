@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/rs/cors"
 )
 
 type UserRegData struct {
@@ -21,9 +23,13 @@ type UserLogData struct {
 var postType = ""
 
 func StartHttpServer(port int) {
-	http.HandleFunc("/", HttpHandler)
+	var c = cors.New(cors.Options{
+		AllowedOrigins: []string{"127.0.0.1:8181"},
+	})
+
+	handler := http.HandlerFunc(HttpHandler)
 	fmt.Println("Httpserver is up and listening on ", port)
-	http.ListenAndServe(":"+strconv.Itoa(port), nil)
+	http.ListenAndServe(":"+strconv.Itoa(port), c.Handler(handler))
 }
 
 func HttpHandler(w http.ResponseWriter, r *http.Request) {
