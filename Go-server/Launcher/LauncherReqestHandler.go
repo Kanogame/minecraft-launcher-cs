@@ -30,6 +30,8 @@ func HandleServer() {
 			filecr(conn)
 		case "decrypt":
 			decrypt(conn)
+		case "images":
+			imageHandler(conn)
 		}
 		conn.Close()
 	}

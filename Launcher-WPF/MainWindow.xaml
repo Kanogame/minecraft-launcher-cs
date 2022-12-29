@@ -97,6 +97,34 @@
                         </StackPanel.Resources>
                     </StackPanel>
                 </ScrollViewer>
+
+                <ScrollViewer Grid.Row="2" Grid.Column="2" 
+                          PanningMode="HorizontalOnly" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" Height="150" VerticalAlignment="Top">
+                    <StackPanel Grid.Row="2" Grid.Column="1"
+                            x:Name="Images"
+                            CanHorizontallyScroll="True" Orientation="Horizontal">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Margin" Value="0,10,0,0"/>
+                            </Style>
+                        </StackPanel.Resources>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <ScrollViewer Grid.Row="2" Grid.Column="2" 
+                          PanningMode="HorizontalOnly" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" Height="200" VerticalAlignment="Top" Margin="0 150 0 0">
+                    <StackPanel Grid.Row="2" Grid.Column="1"
+                            x:Name="Text"
+                            CanHorizontallyScroll="True">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Margin" Value="0,10,0,0"/>
+                            </Style>
+                        </StackPanel.Resources>
+                    </StackPanel>
+                </ScrollViewer>
+
+
                 <StackPanel Orientation="Horizontal" Grid.Column="2"  HorizontalAlignment="Right" Margin="0,0,15,0" VerticalAlignment="Center">
                     <Button Height="20" Width="20" Background="Transparent" BorderBrush="Transparent" Click="Button_Click_3">
                         <Image Source="Images/Min.png" Margin="0 13 0 0"/> 

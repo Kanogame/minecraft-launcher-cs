@@ -31,7 +31,7 @@ namespace Launcher_WPF
             InitializeComponent();
             GoConn = new goConn("127.0.0.1", 8081);
             fileRequest = new FileRequest(GoConn);
-            createCard = new CreateCard(ServerList, ServersCol);
+            createCard = new CreateCard(ServerList, ServersCol, Images, Text);
             Initialize();
         }
 

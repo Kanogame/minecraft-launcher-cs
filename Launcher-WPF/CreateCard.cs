@@ -8,6 +8,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Media;
 using System.Windows;
 using BackendCommon;
+using System.Xml.Linq;
 
 namespace Launcher_WPF
 {
@@ -15,22 +16,29 @@ namespace Launcher_WPF
     {
         private int height = 160;
 
+        private string TextState;
+
         private Colors Cols;
 
         private FontFamily RobotoBold = new FontFamily(new Uri("file://Fonts/Roboto-Bold.ttf"), "RobotoBold");
         private FontFamily RobotoRegular = new FontFamily(new Uri("file://Fonts/Roboto-Regular.ttf"), "RobotoRegular");
 
         private StackPanel ServerList;
+        private StackPanel Images;
+        private StackPanel Text;
         private ColumnDefinition ServersCol;
 
-        public CreateCard(StackPanel ServerList, ColumnDefinition ServersCol)
+        public CreateCard(StackPanel ServerList, ColumnDefinition ServersCol, StackPanel Images, StackPanel Text)
         {
             this.ServersCol = ServersCol;
             this.ServerList = ServerList;
+            this.Images = Images;
+            this.Text = Text;
         }
 
         public void InitCards(string[,] ServersList)
         {
+            TextState = ServersList[0, 0];
             Cols = new Colors();
             var gradientColors = Cols.GetColor();
             for (int i = 0; i < ServersList.GetLength(0); i++)
@@ -41,6 +49,7 @@ namespace Launcher_WPF
                     ServersList[i, 2],
                     ServersList[i, 3]);
             }
+            StateManager(ServersList);
         }
 
         public void CreateServerCard(LinearGradientBrush GradientBrush, string Name, string ip, string Version, string Desc)
@@ -92,6 +101,39 @@ namespace Launcher_WPF
             GradientBrush.GradientStops.Add(new GradientStop(stop1, 0.0));
             GradientBrush.GradientStops.Add(new GradientStop(stop2, 1));
             return GradientBrush;
+        }
+
+        private void ChangeState(string newState, string[,] ServersList)
+        {
+            Text.Children.Clear();
+            TextState = newState;
+            StateManager(ServersList);
+        }
+
+        private void StateManager(string[,] ServersList)
+        {
+            for (int i = 0; i < ServersList.GetLength(0); i++)
+            {
+                if (TextState == ServersList[i, 0])
+                {
+                    CreateText(ServersList[i, 0], ServersList[i, 4]);
+                    break;
+                }
+            }
+        }
+
+        public void CreateImages()
+        {
+
+        }
+
+        public void CreateText(string name, string text)
+        {
+            var ServerName = CreateTexBlock(name, 30, RobotoBold);
+            var serverDesc = CreateTexBlock(text, 15, RobotoBold);
+            serverDesc.TextWrapping = TextWrapping.Wrap;
+            Text.Children.Add(ServerName);
+            Text.Children.Add(serverDesc);
         }
     }
 }

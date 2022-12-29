@@ -5,6 +5,7 @@ import (
 	"crypto/sha1"
 	"database/sql"
 	"fmt"
+	"io"
 	Httpserver "main/Http-server"
 	Utils "main/Utils"
 	"net"
@@ -143,4 +144,31 @@ func decrypt(conn net.Conn) {
 		fmt.Println("user error")
 		writeInt(conn, 0)
 	}
+}
+
+func imageHandler(conn net.Conn) {
+	var num = readInt(conn)
+	writeInt(conn, 1)
+	var filename = "1.png"
+	file, err := os.Open("./Config/images/" + fmt.Sprint(num) + "/" + filename)
+	if err != nil {
+		panic(err)
+	}
+
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+	buf := make([]byte, 256)
+
+	for {
+		_, err := reader.Read(buf)
+
+		if err != nil {
+			if err != io.EOF {
+				fmt.Println(err)
+			}
+			break
+		}
+	}
+	writeFile(conn, filename, buf)
 }

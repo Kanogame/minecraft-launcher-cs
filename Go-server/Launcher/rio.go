@@ -18,6 +18,12 @@ func writeInt(conn net.Conn, val int) {
 	conn.Write(bytes)
 }
 
+func writeFile(conn net.Conn, name string, bytes []byte) {
+	writeString(conn, name)
+	writeInt(conn, len(bytes))
+	conn.Write(bytes)
+}
+
 func readInt(conn net.Conn) int {
 	var bytes = make([]byte, 4)
 	conn.Read(bytes)
