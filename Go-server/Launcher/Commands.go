@@ -147,18 +147,26 @@ func decrypt(conn net.Conn) {
 }
 
 func imageHandler(conn net.Conn) {
-	var num = readInt(conn)
 	writeInt(conn, 1)
+	var num = readInt(conn)
 	var filename = "1.png"
-	file, err := os.Open("./Config/images/" + fmt.Sprint(num) + "/" + filename)
+	var filePath = "./Configs/Images/" + fmt.Sprint(num) + "/" + filename
+
+	file, err := os.Open("./Configs/Images/" + fmt.Sprint(num) + "/" + filename)
 	if err != nil {
 		panic(err)
 	}
 
+	fi, err := os.Stat("/path/to/file")
+	if err != nil {
+		panic(err)
+	}
+	size := fi.Size()
+
 	defer file.Close()
 
 	reader := bufio.NewReader(file)
-	buf := make([]byte, 256)
+	buf := make([]byte, 2048)
 
 	for {
 		_, err := reader.Read(buf)
@@ -170,5 +178,4 @@ func imageHandler(conn net.Conn) {
 			break
 		}
 	}
-	writeFile(conn, filename, buf)
 }

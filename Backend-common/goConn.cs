@@ -1,6 +1,7 @@
 ﻿using BackendCommon;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -119,6 +120,16 @@ namespace BackendCommon
         {
             var hash = new SHA1Managed().ComputeHash(Encoding.UTF8.GetBytes(value));
             return string.Concat(hash.Select(b => b.ToString("x2")));
+        }
+
+        public void ImageHandler(string path)
+        {
+            goStream = initConnection();
+            goStream.writeString("images");
+            var imageCount = goStream.readInt();
+            goStream.writeInt(1);
+            var filename = goStream.readString();
+            goStream.readFile(Path.Combine(path, filename));
         }
     }
 }

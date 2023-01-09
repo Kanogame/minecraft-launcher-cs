@@ -42,6 +42,7 @@ namespace Launcher_WPF
             {
                 InputBox.Visibility = Visibility.Collapsed;
                 LoadServerList();
+                fileRequest.GetImages();
             }
         }
 

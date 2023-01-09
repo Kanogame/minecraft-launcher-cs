@@ -124,7 +124,6 @@ namespace Launcher_WPF
 
         public void CreateImages()
         {
-
         }
 
         public void CreateText(string name, string text)

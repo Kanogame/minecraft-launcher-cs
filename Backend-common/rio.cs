@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -85,6 +86,16 @@ namespace BackendCommon
             int len = stream.readInt();
             var bytes = stream.read(len);
             return UTF8Encoding.UTF8.GetString(bytes);
+        }
+
+        public static void readFile(this NetworkStream stream, string path)
+        {
+            var len = stream.readLong();
+            string name = stream.readString();
+            using (Stream f = File.OpenWrite(path))
+            {
+                f.Write(bytes, 0, bytes.Length);
+            }
         }
 
         public static byte[] read(this NetworkStream stream, int bytesCount, Action<int> progress = null)

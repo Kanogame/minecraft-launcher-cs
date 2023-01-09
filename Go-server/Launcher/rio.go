@@ -18,6 +18,12 @@ func writeInt(conn net.Conn, val int) {
 	conn.Write(bytes)
 }
 
+func writeInt64(conn net.Conn, val int64) {
+	var bytes = make([]byte, 64)
+	binary.LittleEndian.PutUint64(bytes[0:64], uint64(val))
+	conn.Write(bytes)
+}
+
 func writeFile(conn net.Conn, name string, bytes []byte) {
 	writeString(conn, name)
 	writeInt(conn, len(bytes))

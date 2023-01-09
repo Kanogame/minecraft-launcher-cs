@@ -49,6 +49,11 @@ namespace Launcher_WPF
             }
         }
 
+        public void GetImages()
+        {
+            GoConn.ImageHandler(defaultTempPath);
+        }
+
         public bool SendUserData()
         {
             using (StreamReader sr = new StreamReader(Path.Combine(defPath, "data", "temp.txt")))
