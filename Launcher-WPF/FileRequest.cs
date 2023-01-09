@@ -15,7 +15,7 @@ namespace Launcher_WPF
 {
     public class FileRequest
     {
-        string defaultTempPath = "C:\\Users\\OneSmiLe\\Desktop\\Temp\\Resenved";
+        string defaultTempPath = "C://Users//Win10//Desktop//Программирование//Web пнчт//Иванов Александр//minecraft-launcher-cs//Launcher-WPF//Temp";
         string defPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft");
         string defaultGamePath;
         string instanceName = "";

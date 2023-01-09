@@ -147,21 +147,18 @@ func decrypt(conn net.Conn) {
 }
 
 func imageHandler(conn net.Conn) {
-	writeInt(conn, 1)
-	var num = readInt(conn)
-	var filename = "1.png"
-	var filePath = "./Configs/Images/" + fmt.Sprint(num) + "/" + filename
+	var filePath = "./Configs/Images/1/1.png"
 
-	file, err := os.Open("./Configs/Images/" + fmt.Sprint(num) + "/" + filename)
+	file, err := os.Open(filePath)
 	if err != nil {
 		panic(err)
 	}
 
-	fi, err := os.Stat("/path/to/file")
+	fi, err := os.Stat(filePath)
 	if err != nil {
 		panic(err)
 	}
-	size := fi.Size()
+	writeInt64(conn, fi.Size())
 
 	defer file.Close()
 
@@ -170,12 +167,12 @@ func imageHandler(conn net.Conn) {
 
 	for {
 		_, err := reader.Read(buf)
-
 		if err != nil {
 			if err != io.EOF {
 				fmt.Println(err)
 			}
 			break
 		}
+		conn.Write(buf)
 	}
 }

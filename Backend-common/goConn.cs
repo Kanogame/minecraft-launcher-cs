@@ -126,10 +126,7 @@ namespace BackendCommon
         {
             goStream = initConnection();
             goStream.writeString("images");
-            var imageCount = goStream.readInt();
-            goStream.writeInt(1);
-            var filename = goStream.readString();
-            goStream.readFile(Path.Combine(path, filename));
+            goStream.readFile(path);
         }
     }
 }

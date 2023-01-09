@@ -37,13 +37,13 @@ namespace Launcher_WPF
 
         private void Initialize()
         {
-            InputBox.Visibility = Visibility.Visible;
-            if (fileRequest.ReadUserData() && fileRequest.SendUserData())
-            {
+            //InputBox.Visibility = Visibility.Visible;
+            //if (fileRequest.ReadUserData() && fileRequest.SendUserData())
+            //{
                 InputBox.Visibility = Visibility.Collapsed;
-                LoadServerList();
+            //    LoadServerList();
                 fileRequest.GetImages();
-            }
+            //}
         }
 
         private void LoadServerList()

@@ -92,9 +92,15 @@ namespace BackendCommon
         {
             var len = stream.readLong();
             string name = stream.readString();
-            using (Stream f = File.OpenWrite(path))
+            using (Stream f = File.OpenWrite(Path.Combine(path, name)))
             {
-                f.Write(bytes, 0, bytes.Length);
+                while (len > 0)
+                {
+                    int cnt = (int)Math.Min(len, 2048);
+                    byte[] bytes = stream.read(cnt);
+                    f.Write(bytes, 0, bytes.Length);
+                    len -= cnt;
+                }
             }
         }
 
