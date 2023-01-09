@@ -159,6 +159,7 @@ func imageHandler(conn net.Conn) {
 		panic(err)
 	}
 	writeInt64(conn, fi.Size())
+	writeString(conn, "1.png")
 
 	defer file.Close()
 

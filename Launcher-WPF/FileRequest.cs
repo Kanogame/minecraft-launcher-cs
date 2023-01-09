@@ -51,7 +51,7 @@ namespace Launcher_WPF
 
         public void GetImages()
         {
-            GoConn.ImageHandler(defaultTempPath);
+            GoConn.ImageHandler(defPath);
         }
 
         public bool SendUserData()

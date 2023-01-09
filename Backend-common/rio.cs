@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BackendCommon
 {
@@ -92,7 +93,9 @@ namespace BackendCommon
         {
             var len = stream.readLong();
             string name = stream.readString();
-            using (Stream f = File.OpenWrite(Path.Combine(path, name)))
+            MessageBox.Show(name);
+            MessageBox.Show(Path.Combine(path, name));
+            using (Stream f = File.OpenWrite(Path.Combine(path, "1.png")))
             {
                 while (len > 0)
                 {
