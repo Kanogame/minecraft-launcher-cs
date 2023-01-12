@@ -7,15 +7,15 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.IO.Compression;
 using System.Windows.Input;
+using System.Windows.Forms;
 
 namespace Launcher_WPF
 {
     public class FileRequest
     {
-        string defaultTempPath = "C://Users//Win10//Desktop//Программирование//Web пнчт//Иванов Александр//minecraft-launcher-cs//Launcher-WPF//Temp";
+        string defaultTempPath = "C:\\Users\\OneSmiLe\\Desktop\\Temp\\Resenved";
         string defPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft");
         string defaultGamePath;
         string instanceName = "";
@@ -51,7 +51,25 @@ namespace Launcher_WPF
 
         public void GetImages()
         {
-            GoConn.ImageHandler(defPath);
+            var tempPath = Path.Combine(defPath, "temp");
+
+            if (!File.Exists(tempPath))
+            {
+                Directory.CreateDirectory(tempPath);
+            }
+
+            DirectoryInfo di = new DirectoryInfo(tempPath);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
+                dir.Delete(true);
+            }
+
+            GoConn.ImageHandler(tempPath, 1);
         }
 
         public bool SendUserData()

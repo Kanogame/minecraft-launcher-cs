@@ -92,14 +92,20 @@ namespace BackendCommon
         public static void readFile(this NetworkStream stream, string path)
         {
             var len = stream.readLong();
+            MessageBox.Show(len.ToString());
             string name = stream.readString();
             MessageBox.Show(name);
-            MessageBox.Show(Path.Combine(path, name));
-            using (Stream f = File.OpenWrite(Path.Combine(path, "1.png")))
+
+            if (!File.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            using (Stream f = File.OpenWrite(Path.Combine(path, name)))
             {
                 while (len > 0)
                 {
-                    int cnt = (int)Math.Min(len, 2048);
+                    Console.WriteLine(len);
+                    int cnt = (int)Math.Min(len, 1024);
                     byte[] bytes = stream.read(cnt);
                     f.Write(bytes, 0, bytes.Length);
                     len -= cnt;

@@ -122,11 +122,22 @@ namespace BackendCommon
             return string.Concat(hash.Select(b => b.ToString("x2")));
         }
 
-        public void ImageHandler(string path)
+        public void ImageHandler(string path, int FolderCount)
         {
             goStream = initConnection();
             goStream.writeString("images");
-            goStream.readFile(path);
+            goStream.writeInt(FolderCount);
+            var fileCount = goStream.readInt();
+            for (int i = 0; i < fileCount; i++)
+            {
+                goStream.readFile(Path.Combine(path, FolderCount.ToString()));
+                goStream.writeString("conf");
+                var conf = goStream.readString();
+                while (conf != "conf")
+                {
+                    conf = goStream.readString();
+                }
+            }
         }
     }
 }

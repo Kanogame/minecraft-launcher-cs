@@ -147,33 +147,55 @@ func decrypt(conn net.Conn) {
 }
 
 func imageHandler(conn net.Conn) {
-	var filePath = "./Configs/Images/1/1.png"
+	var folderCnt = readInt(conn)
+	fmt.Println(folderCnt)
 
-	file, err := os.Open(filePath)
+	fileD, err := os.Open("./Configs/Images/" + fmt.Sprint(folderCnt) + "/imageData.txt")
 	if err != nil {
 		panic(err)
 	}
 
-	fi, err := os.Stat(filePath)
+	scanner := bufio.NewScanner(fileD)
+	scanner.Scan()
+	fileCnt, err := strconv.Atoi(scanner.Text())
 	if err != nil {
 		panic(err)
 	}
-	writeInt64(conn, fi.Size())
-	writeString(conn, "1.png")
+	writeInt(conn, fileCnt)
+	fmt.Println(fileCnt)
 
-	defer file.Close()
+	for i := 0; i < fileCnt; i++ {
 
-	reader := bufio.NewReader(file)
-	buf := make([]byte, 2048)
-
-	for {
-		_, err := reader.Read(buf)
+		var filePath = "./Configs/Images/" + fmt.Sprint(folderCnt) + "/" + fmt.Sprint(i+1) + ".png"
+		file, err := os.Open(filePath)
 		if err != nil {
-			if err != io.EOF {
-				fmt.Println(err)
-			}
-			break
+			panic(err)
 		}
-		conn.Write(buf)
+
+		fi, err := file.Stat()
+		if err != nil {
+			panic(err)
+		}
+
+		writeInt64(conn, fi.Size())
+		writeString(conn, fmt.Sprint(i+1)+".png")
+
+		defer file.Close()
+		buf := make([]byte, 1024)
+
+		for {
+			_, err = file.Read(buf)
+			if err == io.EOF {
+				break
+			}
+			conn.Write(buf)
+		}
+
+		var conf = readString(conn)
+		for conf != "conf" {
+			conf = readString(conn)
+			fmt.Println("error")
+		}
+		writeString(conn, conf)
 	}
 }
