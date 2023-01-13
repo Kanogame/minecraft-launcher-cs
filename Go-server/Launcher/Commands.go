@@ -147,55 +147,29 @@ func decrypt(conn net.Conn) {
 }
 
 func imageHandler(conn net.Conn) {
-	var folderCnt = readInt(conn)
-	fmt.Println(folderCnt)
 
-	fileD, err := os.Open("./Configs/Images/" + fmt.Sprint(folderCnt) + "/imageData.txt")
+	var filePath = "./Configs/Images/images.zip"
+	file, err := os.Open(filePath)
 	if err != nil {
 		panic(err)
 	}
 
-	scanner := bufio.NewScanner(fileD)
-	scanner.Scan()
-	fileCnt, err := strconv.Atoi(scanner.Text())
+	fi, err := file.Stat()
 	if err != nil {
 		panic(err)
 	}
-	writeInt(conn, fileCnt)
-	fmt.Println(fileCnt)
 
-	for i := 0; i < fileCnt; i++ {
+	writeInt64(conn, fi.Size())
+	writeString(conn, "images.zip")
 
-		var filePath = "./Configs/Images/" + fmt.Sprint(folderCnt) + "/" + fmt.Sprint(i+1) + ".png"
-		file, err := os.Open(filePath)
-		if err != nil {
-			panic(err)
+	defer file.Close()
+	buf := make([]byte, 1024)
+
+	for {
+		_, err = file.Read(buf)
+		if err == io.EOF {
+			break
 		}
-
-		fi, err := file.Stat()
-		if err != nil {
-			panic(err)
-		}
-
-		writeInt64(conn, fi.Size())
-		writeString(conn, fmt.Sprint(i+1)+".png")
-
-		defer file.Close()
-		buf := make([]byte, 1024)
-
-		for {
-			_, err = file.Read(buf)
-			if err == io.EOF {
-				break
-			}
-			conn.Write(buf)
-		}
-
-		var conf = readString(conn)
-		for conf != "conf" {
-			conf = readString(conn)
-			fmt.Println("error")
-		}
-		writeString(conn, conf)
+		conn.Write(buf)
 	}
 }

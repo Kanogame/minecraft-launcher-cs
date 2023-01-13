@@ -37,13 +37,13 @@ namespace Launcher_WPF
 
         private void Initialize()
         {
-            //InputBox.Visibility = Visibility.Visible;
-            //if (fileRequest.ReadUserData() && fileRequest.SendUserData())
-            //{
-                InputBox.Visibility = Visibility.Collapsed;
-            //    LoadServerList();
-                fileRequest.GetImages();
-            //}
+            InputBox.Visibility = Visibility.Visible;
+            if (fileRequest.ReadUserData() && fileRequest.SendUserData())
+            {
+              InputBox.Visibility = Visibility.Collapsed;
+                //fileRequest.GetImages();
+                LoadServerList();
+            }
         }
 
         private void LoadServerList()
@@ -54,7 +54,7 @@ namespace Launcher_WPF
             }
             catch (Exception)
             {
-                createCard.CreateServerCard(new LinearGradientBrush(Color.FromRgb(39, 37, 55), Color.FromRgb(39, 37, 55), 0),"Error Occured", "", "", "Server is currently not anvalible");
+                createCard.CreateServerCard(new LinearGradientBrush(Color.FromRgb(39, 37, 55), Color.FromRgb(39, 37, 55), 0),"Error Occured", "", "", "Server is currently not anvalible", 0);
             }
         }
 

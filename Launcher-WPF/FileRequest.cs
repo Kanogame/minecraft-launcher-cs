@@ -69,7 +69,7 @@ namespace Launcher_WPF
                 dir.Delete(true);
             }
 
-            GoConn.ImageHandler(tempPath, 1);
+            var imagePath = GoConn.ImageHandler(tempPath);
         }
 
         public bool SendUserData()

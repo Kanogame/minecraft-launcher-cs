@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -122,22 +123,28 @@ namespace BackendCommon
             return string.Concat(hash.Select(b => b.ToString("x2")));
         }
 
-        public void ImageHandler(string path, int FolderCount)
+        public string ImageHandler(string path)
         {
             goStream = initConnection();
             goStream.writeString("images");
-            goStream.writeInt(FolderCount);
-            var fileCount = goStream.readInt();
-            for (int i = 0; i < fileCount; i++)
+            goStream.readFile(path);
+            var UnpackPath = Path.Combine(path, "images");
+            Directory.CreateDirectory(UnpackPath);
+            UnZip(path, UnpackPath);
+            return UnpackPath;
+
+        }
+        private void UnZip(string tempPath ,string UnpackPath)
+        {
+            try
             {
-                goStream.readFile(Path.Combine(path, FolderCount.ToString()));
-                goStream.writeString("conf");
-                var conf = goStream.readString();
-                while (conf != "conf")
-                {
-                    conf = goStream.readString();
-                }
+                ZipFile.ExtractToDirectory(Path.Combine(tempPath, "images.zip"), UnpackPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("при распаковке что-то пошло не так, " + ex.Message);
             }
         }
+
     }
 }

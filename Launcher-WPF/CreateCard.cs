@@ -9,6 +9,8 @@ using System.Windows.Media;
 using System.Windows;
 using BackendCommon;
 using System.Xml.Linq;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace Launcher_WPF
 {
@@ -27,6 +29,8 @@ namespace Launcher_WPF
         private StackPanel Images;
         private StackPanel Text;
         private ColumnDefinition ServersCol;
+
+        private string[,] LocalServersList;
 
         public CreateCard(StackPanel ServerList, ColumnDefinition ServersCol, StackPanel Images, StackPanel Text)
         {
@@ -47,12 +51,13 @@ namespace Launcher_WPF
                     ServersList[i, 0],
                     ServersList[i, 1],
                     ServersList[i, 2],
-                    ServersList[i, 3]);
+                    ServersList[i, 3], i);
             }
-            StateManager(ServersList);
+            SetState(0, ServersList);
+            LocalServersList = ServersList;
         }
 
-        public void CreateServerCard(LinearGradientBrush GradientBrush, string Name, string ip, string Version, string Desc)
+        public void CreateServerCard(LinearGradientBrush GradientBrush, string Name, string ip, string Version, string Desc, int id)
         {
             Border bord = new Border()
             {
@@ -63,14 +68,18 @@ namespace Launcher_WPF
                 Background = GradientBrush,
                 CornerRadius = new CornerRadius(16, 16, 16, 16),
             };
+            Button bnt = new Button();
             StackPanel rec = new StackPanel();
 
             var ServerName = CreateTexBlock(Name, 30, RobotoBold);
             var Players = CreateTexBlock(ip, 18, RobotoBold);
             var Ver = CreateTexBlock(Version, 18, RobotoBold);
             var Descr = CreateTexBlock(Desc, 15, RobotoRegular);
+            var ID = CreateTexBlock(id.ToString(), 1, RobotoRegular);
 
             bord.Child = rec;
+            rec.MouseLeftButtonUp += Rec_MouseLeftButtonUp;
+            rec.Children.Add(ID);
             rec.Children.Add(ServerName);
             rec.Children.Add(Players);
             rec.Children.Add(Ver);
@@ -79,6 +88,14 @@ namespace Launcher_WPF
             ServerList.Children.Add(bord);
             ServerList.HorizontalAlignment = HorizontalAlignment.Center;
             ServerList.CanVerticallyScroll = true;
+        }
+
+        private void Rec_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            StackPanel clicked = (StackPanel)sender;
+            var data = clicked.Children.Cast<TextBlock>();
+            var textBlocks  = data.ToArray();
+            SetState(int.Parse(textBlocks[0].Text), LocalServersList);
         }
 
         private TextBlock CreateTexBlock(string text, int fontsize, FontFamily font)
@@ -103,27 +120,22 @@ namespace Launcher_WPF
             return GradientBrush;
         }
 
-        private void ChangeState(string newState, string[,] ServersList)
+        private void SetState(int id, string[,] ServersList)
         {
             Text.Children.Clear();
-            TextState = newState;
-            StateManager(ServersList);
+            CreateImages(id);
+            CreateText(ServersList[id, 0], ServersList[id, 4]);
         }
 
-        private void StateManager(string[,] ServersList)
+        public void CreateImages(int id)
         {
-            for (int i = 0; i < ServersList.GetLength(0); i++)
+            for (int i = 0; i < 6; i++)
             {
-                if (TextState == ServersList[i, 0])
-                {
-                    CreateText(ServersList[i, 0], ServersList[i, 4]);
-                    break;
-                }
+                Image img = new Image();
+                img.Source = new BitmapImage(new Uri(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft", "temp", (id + 1).ToString(), (i + 1).ToString() + ".png")));
+                
+                Images.Children.Add(img);
             }
-        }
-
-        public void CreateImages()
-        {
         }
 
         public void CreateText(string name, string text)

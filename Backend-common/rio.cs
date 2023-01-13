@@ -95,16 +95,10 @@ namespace BackendCommon
             MessageBox.Show(len.ToString());
             string name = stream.readString();
             MessageBox.Show(name);
-
-            if (!File.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
             using (Stream f = File.OpenWrite(Path.Combine(path, name)))
             {
                 while (len > 0)
                 {
-                    Console.WriteLine(len);
                     int cnt = (int)Math.Min(len, 1024);
                     byte[] bytes = stream.read(cnt);
                     f.Write(bytes, 0, bytes.Length);
