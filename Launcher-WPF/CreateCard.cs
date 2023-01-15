@@ -129,12 +129,23 @@ namespace Launcher_WPF
 
         public void CreateImages(int id)
         {
+            Images.Children.Clear();
             for (int i = 0; i < 6; i++)
             {
-                Image img = new Image();
-                img.Source = new BitmapImage(new Uri(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft", "temp", (id + 1).ToString(), (i + 1).ToString() + ".png")));
+                ImageBrush image = new ImageBrush();
+                image.ImageSource = new BitmapImage(new Uri(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft", "temp", "images", (id + 1).ToString(), (i + 1).ToString() + ".png"))); ;
+
+                var bord = new Border()
+                {
+                    Margin = new Thickness(0, 0, 20, 0),
+                    CornerRadius = new CornerRadius(12, 12, 12, 12),
+                    Background = image,
+                    Width = 266,
+                    Height = 150,
+                };
+
                 
-                Images.Children.Add(img);
+                Images.Children.Add(bord);
             }
         }
 

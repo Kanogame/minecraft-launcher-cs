@@ -86,10 +86,21 @@
 
                 <ScrollViewer Grid.Row="2" Grid.Column="1" 
                           PanningMode="VerticalOnly" HorizontalScrollBarVisibility="Disabled"
-                          VerticalScrollBarVisibility="Hidden">
-                    <StackPanel Grid.Row="2" Grid.Column="1"
-                            x:Name="ServerList"
-                            CanHorizontallyScroll="True">
+                          VerticalScrollBarVisibility="Hidden" x:Name="ScrollServerList">
+                    <StackPanel x:Name="ServerList">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Setter Property="Margin" Value="0,10,0,0"/>
+                            </Style>
+                        </StackPanel.Resources>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <ScrollViewer Grid.Row="2" Grid.Column="2"
+                          HorizontalScrollBarVisibility="Hidden" 
+                          VerticalScrollBarVisibility="Disabled"  VerticalAlignment="Top" x:Name="ScrollImages">
+                    <StackPanel x:Name="Images"
+                            CanHorizontallyScroll="True" Orientation="Horizontal" Height="150">
                         <StackPanel.Resources>
                             <Style TargetType="{x:Type Rectangle}">
                                 <Setter Property="Margin" Value="0,10,0,0"/>
@@ -99,20 +110,7 @@
                 </ScrollViewer>
 
                 <ScrollViewer Grid.Row="2" Grid.Column="2" 
-                          PanningMode="HorizontalOnly" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" Height="150" VerticalAlignment="Top">
-                    <StackPanel Grid.Row="2" Grid.Column="1"
-                            x:Name="Images"
-                            CanHorizontallyScroll="True" Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style TargetType="{x:Type Rectangle}">
-                                <Setter Property="Margin" Value="0,10,0,0"/>
-                            </Style>
-                        </StackPanel.Resources>
-                    </StackPanel>
-                </ScrollViewer>
-
-                <ScrollViewer Grid.Row="2" Grid.Column="2" 
-                          PanningMode="HorizontalOnly" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" Height="200" VerticalAlignment="Top" Margin="0 150 0 0">
+                          PanningMode="HorizontalOnly" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" Height="200" VerticalAlignment="Top" Margin="0 150 0 0" Padding="0 10 0 0">
                     <StackPanel Grid.Row="2" Grid.Column="1"
                             x:Name="Text"
                             CanHorizontallyScroll="True">

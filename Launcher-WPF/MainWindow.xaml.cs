@@ -24,6 +24,8 @@ namespace Launcher_WPF
         goConn GoConn;
         CreateCard createCard;
         FileRequest fileRequest;
+        ScrollDragger ServerListDragger;
+        ScrollDragger ImageDragger;
         private int loginCnt = 0;
 
         public MainWindow()
@@ -32,6 +34,8 @@ namespace Launcher_WPF
             GoConn = new goConn("127.0.0.1", 8081);
             fileRequest = new FileRequest(GoConn);
             createCard = new CreateCard(ServerList, ServersCol, Images, Text);
+            ServerListDragger = new ScrollDragger(ServerList, ScrollServerList, true);
+            ImageDragger = new ScrollDragger(Images, ScrollImages, false);
             Initialize();
         }
 
