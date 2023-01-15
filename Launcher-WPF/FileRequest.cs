@@ -11,6 +11,7 @@ using System.IO.Compression;
 using System.Windows.Input;
 using System.Windows.Forms;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Launcher_WPF
 {
@@ -118,6 +119,8 @@ namespace Launcher_WPF
                 int currentPers = 0;
                 string name = ns.readString();
                 string path = Path.Combine("C:\\Users\\OneSmiLe\\Desktop\\Temp\\Resenved", name);
+                Console.WriteLine(length);
+                Console.WriteLine(percent);
                 using (Stream f = File.OpenWrite(path))
                 {
                     while (length > 0)
@@ -127,9 +130,13 @@ namespace Launcher_WPF
                         f.Write(bytes, 0, bytes.Length);
                         length -= cnt;
 
-                        if ((startlength - length) / percent > currentPers * percent)
+                        if ((int)(startlength - (startlength - length)) / percent > (int)currentPers * percent)
                         {
-                            pb.Value = (int)((startlength - length) / percent);
+                            currentPers = (int)((startlength - length) / percent);
+                            Console.WriteLine(currentPers);
+                            pb.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                                pb.Value = currentPers;
+                            }));
                         }
                     }
                 }
