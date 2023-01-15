@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.IO.Compression;
 using System.Windows.Input;
 using System.Windows.Forms;
+using System.Windows.Controls;
 
 namespace Launcher_WPF
 {
@@ -21,10 +22,12 @@ namespace Launcher_WPF
         string instanceName = "";
         goConn GoConn;
         Crypt cr;
+        System.Windows.Controls.ProgressBar pb;
 
-        public FileRequest(goConn GoConn)
+        public FileRequest(goConn GoConn, System.Windows.Controls.ProgressBar pb)
         {
             this.GoConn = GoConn;
+            this.pb = pb;
             cr = new Crypt();
             defaultGamePath = Path.Combine(defPath, "instances");
             TempClearing(defaultTempPath);
@@ -110,6 +113,9 @@ namespace Launcher_WPF
             {
                 ns.writeBool(true);
                 long length = ns.readLong();
+                var startlength = length;
+                long percent = length / 100;
+                int currentPers = 0;
                 string name = ns.readString();
                 string path = Path.Combine("C:\\Users\\OneSmiLe\\Desktop\\Temp\\Resenved", name);
                 using (Stream f = File.OpenWrite(path))
@@ -120,6 +126,11 @@ namespace Launcher_WPF
                         byte[] bytes = ns.read(cnt);
                         f.Write(bytes, 0, bytes.Length);
                         length -= cnt;
+
+                        if ((startlength - length) / percent > currentPers * percent)
+                        {
+                            pb.Value = (int)((startlength - length) / percent);
+                        }
                     }
                 }
                 MessageBox.Show("DONE!");

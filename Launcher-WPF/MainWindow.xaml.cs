@@ -1,6 +1,7 @@
 ﻿using BackendCommon;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Policy;
@@ -32,7 +33,7 @@ namespace Launcher_WPF
         {
             InitializeComponent();
             GoConn = new goConn("127.0.0.1", 8081);
-            fileRequest = new FileRequest(GoConn);
+            fileRequest = new FileRequest(GoConn, progress);
             createCard = new CreateCard(ServerList, ServersCol, Images, Text);
             ServerListDragger = new ScrollDragger(ServerList, ScrollServerList, true);
             ImageDragger = new ScrollDragger(Images, ScrollImages, false);
@@ -108,6 +109,13 @@ namespace Launcher_WPF
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            progressBar.Visibility= Visibility.Visible;
+            var instanceName = createCard.GetinstanceName();
+            fileRequest.GetFile("placeHolder", instanceName);
         }
     }
 }

@@ -16,9 +16,10 @@ namespace Launcher_WPF
 {
     internal class CreateCard
     {
+
         private int height = 160;
 
-        private string TextState;
+        private int currentID;
 
         private Colors Cols;
 
@@ -40,9 +41,14 @@ namespace Launcher_WPF
             this.Text = Text;
         }
 
+        public string GetinstanceName()
+        {
+            return LocalServersList[currentID, 5];
+        }
+
         public void InitCards(string[,] ServersList)
         {
-            TextState = ServersList[0, 0];
+            currentID = 0;
             Cols = new Colors();
             var gradientColors = Cols.GetColor();
             for (int i = 0; i < ServersList.GetLength(0); i++)
@@ -95,6 +101,7 @@ namespace Launcher_WPF
             StackPanel clicked = (StackPanel)sender;
             var data = clicked.Children.Cast<TextBlock>();
             var textBlocks  = data.ToArray();
+            currentID = int.Parse(textBlocks[0].Text);
             SetState(int.Parse(textBlocks[0].Text), LocalServersList);
         }
 
