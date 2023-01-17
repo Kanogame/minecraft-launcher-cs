@@ -73,7 +73,6 @@ namespace BackendCommon
             {
                 token = goStream.readString(); //yes
                 tokenPWD = goStream.readString(); //yes
-                MessageBox.Show(token, tokenPWD);
                 return true;
             }
             else
@@ -98,8 +97,6 @@ namespace BackendCommon
                 goStream.writeString(name);
                 string key = goStream.readString();
                 int id = goStream.readInt();
-                MessageBox.Show(key);
-                MessageBox.Show(id.ToString());
                 return new string[2]
                 {
                     id.ToString(), key

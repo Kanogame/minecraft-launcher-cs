@@ -34,10 +34,16 @@ namespace Launcher_WPF
             InitializeComponent();
             GoConn = new goConn("127.0.0.1", 8081);
             fileRequest = new FileRequest(GoConn, progress);
+            fileRequest.DownloadCompleted += FileRequest_DownloadCompleted;
             createCard = new CreateCard(ServerList, ServersCol, Images, Text);
             ServerListDragger = new ScrollDragger(ServerList, ScrollServerList, true);
             ImageDragger = new ScrollDragger(Images, ScrollImages, false);
             Initialize();
+        }
+
+        private void FileRequest_DownloadCompleted()
+        {
+            progressBar.Visibility = Visibility.Collapsed;
         }
 
         private void Initialize()

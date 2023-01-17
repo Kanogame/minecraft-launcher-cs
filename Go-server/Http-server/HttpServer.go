@@ -24,7 +24,7 @@ var postType = ""
 
 func StartHttpServer(port int) {
 	var c = cors.New(cors.Options{
-		AllowedOrigins: []string{"127.0.0.1:8181"},
+		AllowedOrigins: []string{"127.0.0.1:8181", "192.168.1.4:8181"},
 	})
 
 	handler := http.HandlerFunc(HttpHandler)

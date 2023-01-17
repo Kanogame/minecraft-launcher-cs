@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace Launcher_WPF
 {
@@ -21,9 +22,12 @@ namespace Launcher_WPF
         string defPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft");
         string defaultGamePath;
         string instanceName = "";
+
         goConn GoConn;
         Crypt cr;
         System.Windows.Controls.ProgressBar pb;
+
+        public event DownloadFinishDelegate DownloadCompleted;
 
         public FileRequest(goConn GoConn, System.Windows.Controls.ProgressBar pb)
         {
@@ -117,10 +121,12 @@ namespace Launcher_WPF
                 var startlength = length;
                 long percent = length / 100;
                 int currentPers = 0;
+                int progress = 0;
                 string name = ns.readString();
                 string path = Path.Combine("C:\\Users\\OneSmiLe\\Desktop\\Temp\\Resenved", name);
                 Console.WriteLine(length);
                 Console.WriteLine(percent);
+                int iterator = 0;
                 using (Stream f = File.OpenWrite(path))
                 {
                     while (length > 0)
@@ -129,21 +135,30 @@ namespace Launcher_WPF
                         byte[] bytes = ns.read(cnt);
                         f.Write(bytes, 0, bytes.Length);
                         length -= cnt;
-
-                        if ((int)(startlength - (startlength - length)) / percent > (int)currentPers * percent)
+                        iterator++;
+                        if (iterator % 5000 == 0)
                         {
-                            currentPers = (int)((startlength - length) / percent);
-                            Console.WriteLine(currentPers);
-                            pb.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-                                pb.Value = currentPers;
-                            }));
+                            progress = (int)(((double)startlength - (double)length) / (double)percent);
+                            if (progress > currentPers)
+                            {
+                                currentPers = progress;
+                                pb.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                                    pb.Value = currentPers;
+                                }));
+                            }
                         }
                     }
                 }
-                MessageBox.Show("DONE!");
+                pb.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                    pb.Value = 100;
+                    InvokeDownloadCompleted();
+                }));
                 string tempPath = Path.Combine(defaultTempPath, name);
                 UnZip(tempPath);
                 TempClearing(tempPath);
+                pb.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                    InvokeDownloadCompleted();
+                }));
             }
         }
 
@@ -169,6 +184,14 @@ namespace Launcher_WPF
             if (File.Exists(tempPath))
             {
                 File.Delete(tempPath);
+            }
+        }
+
+        private void InvokeDownloadCompleted()
+        {
+            if (DownloadCompleted != null)
+            {
+                DownloadCompleted();
             }
         }
     }

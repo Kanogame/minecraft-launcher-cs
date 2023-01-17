@@ -12,8 +12,8 @@ inputForm.addEventListener("submit", (e)=>{
 });
 
 async function SendReg(bodyData) {
-    await RequestType("reg");
-    await ServerRequest(bodyData);
+    RequestType("reg");
+    ServerRequest(bodyData);
 }
 
 async function RequestType(type) {
@@ -34,6 +34,7 @@ async function ServerRequest(bodyData) {
         },
         body: JSON.stringify(bodyData),
     });
+    console.log(JSON.stringify(bodyData));
     text = await response.text();
     if (text === "success") {
         console.log(text);

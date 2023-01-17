@@ -43,5 +43,6 @@ func DecryptPW(passwd string, key string) string {
 	if err != nil {
 		panic(err)
 	}
+
 	return string(Encrypt([]byte(key), data))
 }
