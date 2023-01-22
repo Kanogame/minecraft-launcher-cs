@@ -32,6 +32,8 @@ func HandleServer() {
 			decrypt(conn)
 		case "images":
 			imageHandler(conn)
+		case "getmcname":
+			getMCN(conn)
 		}
 		conn.Close()
 	}

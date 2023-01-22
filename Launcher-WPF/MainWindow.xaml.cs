@@ -1,7 +1,11 @@
 ﻿using BackendCommon;
+using CmlLib.Core;
+using CmlLib.Core.Auth;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Policy;
@@ -69,6 +73,44 @@ namespace Launcher_WPF
             }
         }
 
+        private void Start()
+        {
+            var instanceName = createCard.GetinstanceName();
+            if (fileRequest.CheckFile(instanceName))
+            {
+                progressBar.Visibility = Visibility.Visible;
+                fileRequest.GetFile("placeHolder", instanceName);
+                string name = GoConn.GetMCname();
+                if (name != null)
+                {
+                    var session = MSession.GetOfflineSession(name);
+                    var path = new MinecraftPath(fileRequest.GetInstPath(instanceName));
+                    progressBar.Visibility = Visibility.Visible;
+                    progressBarText.Text = "запуск";
+
+                    var launcher = new CMLauncher(path);
+                    launcher.ProgressChanged += (s, e) =>
+                    {
+                        progress.Value = e.ProgressPercentage;
+                    };
+
+                    var versions = launcher.GetAllVersionsAsync();
+
+                    var launchOption = new MLaunchOption
+                    {
+                        MaximumRamMb = 1024,
+                        Session = session,
+                        ScreenWidth = 1600,
+                        ScreenHeight = 900,
+                        ServerIp = "toblet.lox"
+                    };
+
+                    var process = launcher.CreateProcessAsync("1.12.2-forge1.12.2-14.23.5.2838", launchOption);
+                    process.Start();
+                }
+            }
+        }
+
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -119,9 +161,7 @@ namespace Launcher_WPF
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            progressBar.Visibility= Visibility.Visible;
-            var instanceName = createCard.GetinstanceName();
-            fileRequest.GetFile("placeHolder", instanceName);
+            Start();
         }
     }
 }

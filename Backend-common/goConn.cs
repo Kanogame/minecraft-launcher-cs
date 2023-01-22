@@ -106,6 +106,18 @@ namespace BackendCommon
             return null;
         }
 
+        public string GetMCname()
+        {
+            goStream = initConnection();
+            goStream.writeString("getmcname");
+            if (VerifyToken(token, tokenPWD, goStream))
+            {
+                return goStream.readString();
+            }
+            MessageBox.Show("сессия устарела");
+            return null;
+        }
+
         public bool WriteData(string data)
         {
             goStream = initConnection();

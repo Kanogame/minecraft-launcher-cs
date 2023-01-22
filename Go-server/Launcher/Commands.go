@@ -13,7 +13,7 @@ import (
 	"strconv"
 )
 
-func verifyToken(conn net.Conn, db *sql.DB) bool {
+func verifyToken(conn net.Conn, db *sql.DB) (bool, int) {
 	var token = readString(conn)
 	var passhash = readString(conn)
 	fmt.Println("new token created")
@@ -23,10 +23,10 @@ func verifyToken(conn net.Conn, db *sql.DB) bool {
 	}
 	if Httpserver.VerifyToken(db, data) {
 		writeInt(conn, 1)
-		return true
+		return true, Httpserver.GetTokenById(db, token)
 	} else {
 		writeInt(conn, 0)
-		return false
+		return false, -1
 	}
 }
 
@@ -114,9 +114,18 @@ func verifyuser(conn net.Conn) {
 	}
 }
 
+func getMCN(conn net.Conn) {
+	var db = Httpserver.FindDB("root", "password")
+	vt, id := verifyToken(conn, db)
+	if vt {
+		writeString(conn, Httpserver.GetMCnickByID(db, id))
+	}
+}
+
 func filecr(conn net.Conn) {
 	var db = Httpserver.FindDB("root", "password")
-	if verifyToken(conn, db) {
+	vt, id := verifyToken(conn, db)
+	if vt {
 		var name = readString(conn)
 		if !Httpserver.KeyExist(db, name) {
 			var key = Utils.RandSeq(16)
@@ -126,7 +135,7 @@ func filecr(conn net.Conn) {
 			writeString(conn, Httpserver.GetKey(db, name))
 		}
 		writeInt(conn, Httpserver.GetId(db, name))
-		fmt.Println("user file crypted")
+		fmt.Println("user file crypted", id)
 	}
 }
 

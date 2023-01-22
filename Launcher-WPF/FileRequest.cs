@@ -90,7 +90,12 @@ namespace Launcher_WPF
 
         public bool CheckFile(string instanceName)
         {
-            return File.Exists(Path.Combine(defaultGamePath, instanceName, "versions", "version_manifest_v2.json"));
+            return File.Exists(Path.Combine(defaultGamePath, instanceName));
+        }
+
+        public string GetInstPath(string instanceName)
+        {
+            return Path.Combine(defaultGamePath, instanceName);
         }
 
         public void GetFile(string username, string instanceName)

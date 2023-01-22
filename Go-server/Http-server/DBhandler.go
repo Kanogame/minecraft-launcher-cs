@@ -113,6 +113,30 @@ func GetIdByToken(db *sql.DB, id int) string {
 	return token
 }
 
+func GetTokenById(db *sql.DB, token string) int {
+	res, err := db.Query("SELECT id FROM Token \nWHERE token = ?", token)
+	errorHandler(err)
+
+	var id int
+	for res.Next() {
+		err := res.Scan(&id)
+		errorHandler(err)
+	}
+	return id
+}
+
+func GetMCnickByID(db *sql.DB, id int) string {
+	res, err := db.Query("SELECT mcusername FROM Users \nWHERE id = ?", id)
+	errorHandler(err)
+	var mcname string
+
+	for res.Next() {
+		err := res.Scan(&mcname)
+		errorHandler(err)
+	}
+	return mcname
+}
+
 func AddToken(db *sql.DB, id int, data utils.TokenData) {
 	fmt.Println(data, id)
 	res, err := db.Exec(fmt.Sprintf("INSERT INTO Token (token, passhash, id) VALUES('%v', '%v', '%v')", data.Token, data.Passhash, id))

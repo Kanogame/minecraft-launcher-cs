@@ -164,7 +164,7 @@
                         <StackPanel>
                             <TextBlock Text="Загрузка" Foreground="White" 
                                        HorizontalAlignment="Center" Margin="0, 10"
-                                       FontSize="20"/>
+                                       FontSize="20" x:Name="progressBarText"/>
                             <ProgressBar Height="30" Width="500" Margin="0 0 0 10" x:Name="progress"></ProgressBar>
                         </StackPanel>
                     </Border>
