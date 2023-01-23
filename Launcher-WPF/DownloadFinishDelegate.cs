@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Launcher_WPF
 {
-    public delegate void DownloadFinishDelegate();
+    public delegate void DownloadFinishDelegate(string instanceName);
 }

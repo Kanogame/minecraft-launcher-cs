@@ -45,9 +45,10 @@ namespace Launcher_WPF
             Initialize();
         }
 
-        private void FileRequest_DownloadCompleted()
+        private void FileRequest_DownloadCompleted(string instanceName)
         {
             progressBar.Visibility = Visibility.Collapsed;
+            Launcher(instanceName);
         }
 
         private void Initialize()
@@ -78,36 +79,41 @@ namespace Launcher_WPF
             var instanceName = createCard.GetinstanceName();
             if (fileRequest.CheckFile(instanceName))
             {
+                Launcher(instanceName);
+            }
+            progressBar.Visibility = Visibility.Visible;
+            fileRequest.GetFile("placeHolder", instanceName);
+        }
+
+        async void Launcher(string instanceName)
+        {
+            string name = GoConn.GetMCname();
+            if (name != null)
+            {
+                var session = MSession.GetOfflineSession(name);
+                var path = new MinecraftPath(fileRequest.GetInstPath(instanceName));
                 progressBar.Visibility = Visibility.Visible;
-                fileRequest.GetFile("placeHolder", instanceName);
-                string name = GoConn.GetMCname();
-                if (name != null)
+                progressBarText.Text = "запуск";
+
+                var launcher = new CMLauncher(path);
+                launcher.ProgressChanged += (s, e) =>
                 {
-                    var session = MSession.GetOfflineSession(name);
-                    var path = new MinecraftPath(fileRequest.GetInstPath(instanceName));
-                    progressBar.Visibility = Visibility.Visible;
-                    progressBarText.Text = "запуск";
+                    progress.Value = e.ProgressPercentage;
+                };
 
-                    var launcher = new CMLauncher(path);
-                    launcher.ProgressChanged += (s, e) =>
-                    {
-                        progress.Value = e.ProgressPercentage;
-                    };
+                var versions = await launcher.GetAllVersionsAsync();
 
-                    var versions = launcher.GetAllVersionsAsync();
+                var launchOption = new MLaunchOption
+                {
+                    MaximumRamMb = 1024,
+                    Session = session,
+                    ScreenWidth = 1600,
+                    ScreenHeight = 900,
+                    ServerIp = "toblet.lox"
+                };
 
-                    var launchOption = new MLaunchOption
-                    {
-                        MaximumRamMb = 1024,
-                        Session = session,
-                        ScreenWidth = 1600,
-                        ScreenHeight = 900,
-                        ServerIp = "toblet.lox"
-                    };
-
-                    var process = launcher.CreateProcessAsync("1.12.2-forge1.12.2-14.23.5.2838", launchOption);
-                    process.Start();
-                }
+                var process = await launcher.CreateProcessAsync("1.12.2", launchOption);
+                process.Start();
             }
         }
 

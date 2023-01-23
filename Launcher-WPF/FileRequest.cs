@@ -90,7 +90,7 @@ namespace Launcher_WPF
 
         public bool CheckFile(string instanceName)
         {
-            return File.Exists(Path.Combine(defaultGamePath, instanceName));
+            return Directory.Exists(Path.Combine(defaultGamePath, instanceName));
         }
 
         public string GetInstPath(string instanceName)
@@ -156,13 +156,13 @@ namespace Launcher_WPF
                 }
                 pb.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
                     pb.Value = 100;
-                    InvokeDownloadCompleted();
+                    InvokeDownloadCompleted(instanceName);
                 }));
                 string tempPath = Path.Combine(defaultTempPath, name);
                 UnZip(tempPath);
                 TempClearing(tempPath);
                 pb.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-                    InvokeDownloadCompleted();
+                    InvokeDownloadCompleted(instanceName);
                 }));
             }
         }
@@ -192,11 +192,11 @@ namespace Launcher_WPF
             }
         }
 
-        private void InvokeDownloadCompleted()
+        private void InvokeDownloadCompleted(string ins)
         {
             if (DownloadCompleted != null)
             {
-                DownloadCompleted();
+                DownloadCompleted(ins);
             }
         }
     }

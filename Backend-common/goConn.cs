@@ -123,7 +123,13 @@ namespace BackendCommon
             goStream = initConnection();
             goStream.writeString("decrypt");
             goStream.writeString(data);
-            return goStream.readInt() == 1;
+            if (goStream.readInt() == 1)
+            {
+                token = goStream.readString();
+                tokenPWD = goStream.readString();
+                return true;
+            }
+            return false;
         }
 
         private string GetHash(string value)

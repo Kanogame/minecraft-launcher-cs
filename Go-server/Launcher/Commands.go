@@ -149,6 +149,7 @@ func decrypt(conn net.Conn) {
 	if Httpserver.CheckPasswd(db, userdata) {
 		fmt.Println("user logged in")
 		writeInt(conn, 1)
+		addToken(conn, db, id)
 	} else {
 		fmt.Println("user error")
 		writeInt(conn, 0)
