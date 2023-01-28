@@ -98,6 +98,11 @@ namespace Launcher_WPF
             return Path.Combine(defaultGamePath, instanceName);
         }
 
+        public string GetGamePath()
+        {
+            return Path.Combine(defaultGamePath);
+        }
+
         public void GetFile(string username, string instanceName)
         {
             TcpClient client = GoConn.GetBackIp();

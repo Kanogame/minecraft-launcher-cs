@@ -1,6 +1,7 @@
 ﻿using BackendCommon;
 using CmlLib.Core;
 using CmlLib.Core.Auth;
+using CmlLib.Core.VersionLoader;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,6 +32,8 @@ namespace Launcher_WPF
         FileRequest fileRequest;
         ScrollDragger ServerListDragger;
         ScrollDragger ImageDragger;
+
+        bool connectionSuccesful = true;
         private int loginCnt = 0;
 
         public MainWindow()
@@ -42,7 +45,16 @@ namespace Launcher_WPF
             createCard = new CreateCard(ServerList, ServersCol, Images, Text);
             ServerListDragger = new ScrollDragger(ServerList, ScrollServerList, true);
             ImageDragger = new ScrollDragger(Images, ScrollImages, false);
-            Initialize();
+            try
+            {
+                Initialize();
+            }
+            catch (Exception)
+            {
+                createCard.CreateServerCard(new LinearGradientBrush(Color.FromRgb(39, 37, 55), Color.FromRgb(39, 37, 55), 0), "Error Occured", "", "", "Server is currently not anvalible", 0);
+                connectionSuccesful = false;
+                InputBox.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void FileRequest_DownloadCompleted(string instanceName)
@@ -56,7 +68,7 @@ namespace Launcher_WPF
             InputBox.Visibility = Visibility.Visible;
             if (fileRequest.ReadUserData() && fileRequest.SendUserData())
             {
-              InputBox.Visibility = Visibility.Collapsed;
+                InputBox.Visibility = Visibility.Collapsed;
                 //fileRequest.GetImages();
                 LoadServerList();
             }
@@ -80,9 +92,12 @@ namespace Launcher_WPF
             if (fileRequest.CheckFile(instanceName))
             {
                 Launcher(instanceName);
+            } else
+            {
+                progressBar.Visibility = Visibility.Visible;
+                fileRequest.GetFile("placeHolder", instanceName);
+                Launcher(instanceName);
             }
-            progressBar.Visibility = Visibility.Visible;
-            fileRequest.GetFile("placeHolder", instanceName);
         }
 
         async void Launcher(string instanceName)
@@ -91,7 +106,7 @@ namespace Launcher_WPF
             if (name != null)
             {
                 var session = MSession.GetOfflineSession(name);
-                var path = new MinecraftPath(fileRequest.GetInstPath(instanceName));
+                var path = new MinecraftPath(fileRequest.GetGamePath());
                 progressBar.Visibility = Visibility.Visible;
                 progressBarText.Text = "запуск";
 
@@ -102,6 +117,10 @@ namespace Launcher_WPF
                 };
 
                 var versions = await launcher.GetAllVersionsAsync();
+                foreach (var item in versions)
+                {
+                    Console.WriteLine(item.Name);
+                }
 
                 var launchOption = new MLaunchOption
                 {
@@ -112,7 +131,9 @@ namespace Launcher_WPF
                     ServerIp = "toblet.lox"
                 };
 
-                var process = await launcher.CreateProcessAsync("1.12.2", launchOption);
+                //launcher.VersionLoader = new LocalVersionLoader(new MinecraftPath(fileRequest.GetGamePath()));
+
+                var process = await launcher.CreateProcessAsync("1.12.2-forge-14.23.5.2859", launchOption);
                 process.Start();
             }
         }
