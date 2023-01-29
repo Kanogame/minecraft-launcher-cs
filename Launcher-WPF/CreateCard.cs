@@ -46,6 +46,11 @@ namespace Launcher_WPF
             return LocalServersList[currentID, 5];
         }
 
+        public string GetVersionName()
+        {
+            return LocalServersList[currentID, 2];
+        }
+
         public void InitCards(string[,] ServersList)
         {
             currentID = 0;

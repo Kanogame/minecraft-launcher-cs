@@ -22,6 +22,7 @@ namespace Launcher_WPF
         string defPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kanoCraft");
         string defaultGamePath;
         string instanceName = "";
+        string pathName = "";
 
         goConn GoConn;
         Crypt cr;
@@ -103,17 +104,20 @@ namespace Launcher_WPF
             return Path.Combine(defaultGamePath);
         }
 
-        public void GetFile(string username, string instanceName)
+        public void GetFile(string username, string instanceName, string pathName)
         {
             TcpClient client = GoConn.GetBackIp();
             NetworkStream clientStream = client.GetStream();
             clientStream.writeString(username);
             clientStream.writeString(instanceName);
             this.instanceName = instanceName;
-
-            var t = new Thread(processTransfer);
-            t.IsBackground = true;
-            t.Start(clientStream);
+            this.pathName = pathName;
+            if (clientStream.readBool())
+            {
+                var t = new Thread(processTransfer);
+                t.IsBackground = true;
+                t.Start(clientStream);
+            }
         }
 
         private void processTransfer(object o)
@@ -134,8 +138,6 @@ namespace Launcher_WPF
                 int progress = 0;
                 string name = ns.readString();
                 string path = Path.Combine("C:\\Users\\OneSmiLe\\Desktop\\Temp\\Resenved", name);
-                Console.WriteLine(length);
-                Console.WriteLine(percent);
                 int iterator = 0;
                 using (Stream f = File.OpenWrite(path))
                 {
@@ -178,7 +180,7 @@ namespace Launcher_WPF
             {
                 if (instanceName != "")
                 {
-                    ZipFile.ExtractToDirectory(tempPath, Path.Combine(defaultGamePath, instanceName));
+                    ZipFile.ExtractToDirectory(tempPath, Path.Combine(defaultGamePath, pathName));
                     instanceName = "";
                 }
                 else throw new Exception("instance name was null");

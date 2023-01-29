@@ -89,13 +89,15 @@ namespace Launcher_WPF
         private void Start()
         {
             var instanceName = createCard.GetinstanceName();
+            var versionName = createCard.GetVersionName();
             if (fileRequest.CheckFile(instanceName))
             {
                 Launcher(instanceName);
             } else
             {
                 progressBar.Visibility = Visibility.Visible;
-                fileRequest.GetFile("placeHolder", instanceName);
+                fileRequest.GetFile("placeHolder", versionName, instanceName);
+                fileRequest.GetFile("placeHolder", instanceName, instanceName);
                 Launcher(instanceName);
             }
         }
@@ -106,7 +108,7 @@ namespace Launcher_WPF
             if (name != null)
             {
                 var session = MSession.GetOfflineSession(name);
-                var path = new MinecraftPath(fileRequest.GetGamePath());
+                var path = new MinecraftPath(fileRequest.GetInstPath(instanceName));
                 progressBar.Visibility = Visibility.Visible;
                 progressBarText.Text = "запуск";
 
@@ -130,8 +132,6 @@ namespace Launcher_WPF
                     ScreenHeight = 900,
                     ServerIp = "toblet.lox"
                 };
-
-                //launcher.VersionLoader = new LocalVersionLoader(new MinecraftPath(fileRequest.GetGamePath()));
 
                 var process = await launcher.CreateProcessAsync("1.12.2-forge-14.23.5.2859", launchOption);
                 process.Start();

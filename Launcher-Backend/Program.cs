@@ -17,6 +17,7 @@ namespace Launcher_Backend
     internal class Program
     {
         Logging log;
+        ConfigManager cfgManager;
         private int Port = 23032;
 
         static void Main(string[] args)
@@ -29,6 +30,7 @@ namespace Launcher_Backend
         {
             log = new Logging();
             log.OpenFileWrite();
+            cfgManager = new ConfigManager(log, "./config.txt");
             var acceptClientThreads = new Thread(AcceptClients);
             acceptClientThreads.IsBackground = true;
             acceptClientThreads.Start();
@@ -52,18 +54,19 @@ namespace Launcher_Backend
             var ns = client.GetStream();
             var clientName = ns.readString();
             log.FileWrite("connecting to user with name:" + clientName);
-            string serverRequest = ns.readString();
-            Console.WriteLine(clientName + ": " + serverRequest);
-            Console.WriteLine(client.Client.RemoteEndPoint.ToString());
-            if (serverRequest == "WS4-fabric")
+            string serverRequest = ns.readString() + ".zip";
+            if (cfgManager.checkFile(serverRequest))
             {
+                ns.writeBool(true);
+                Console.WriteLine(clientName + ": " + serverRequest);
+                Console.WriteLine(client.Client.RemoteEndPoint.ToString());
                 log.FileWrite("sending WS4 package");
-                log.FileWrite("reading from C:\\Users\\OneSmiLe\\Desktop\\Temp\\minecraft.zip");
-                SendPackage(ns, "C:\\Users\\OneSmiLe\\Desktop\\Temp\\minecraft.zip");
+                log.FileWrite("reading from " + cfgManager.getFilePath(serverRequest));
+                SendPackage(ns, cfgManager.getFilePath(serverRequest));
             }
             else
             {
-                //TODO
+                ns.writeBool(false);
             }
         }
 
