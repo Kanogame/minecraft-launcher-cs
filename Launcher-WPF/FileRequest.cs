@@ -120,7 +120,7 @@ namespace Launcher_WPF
             }
         }
 
-        private void processTransfer(object o)
+        public void processTransfer(object o)
         {
             var ns = (NetworkStream)o;
             var command = (TransferCommands)ns.ReadByte();

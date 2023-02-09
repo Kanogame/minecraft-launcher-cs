@@ -96,8 +96,8 @@ namespace Launcher_WPF
             } else
             {
                 progressBar.Visibility = Visibility.Visible;
-                fileRequest.GetFile("placeHolder", versionName, instanceName);
-                fileRequest.GetFile("placeHolder", instanceName, instanceName);
+
+                DownloadQueue queue = new DownloadQueue(new string[]{ instanceName, versionName }, instanceName, GoConn, progress);
                 Launcher(instanceName);
             }
         }
