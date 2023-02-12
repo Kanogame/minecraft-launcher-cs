@@ -73,6 +73,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DownloadFinishDelegate.cs" />
+    <Compile Include="DownloadQueue.cs" />
+    <Compile Include="EndQueueDelegate.cs" />
     <Compile Include="ScrollDragger.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

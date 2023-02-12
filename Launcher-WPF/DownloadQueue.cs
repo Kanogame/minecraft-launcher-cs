@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Launcher_WPF
@@ -17,6 +19,7 @@ namespace Launcher_WPF
 
         FileRequest fileRequest;
 
+        public event EndQueueDelegate EndQueue;
 
         public DownloadQueue(IEnumerable<string> instanceNames, string path , goConn GoConn, ProgressBar pb)
         {
@@ -44,9 +47,13 @@ namespace Launcher_WPF
 
         private string GetTask()
         {
-            if (Tasks != null)
+            try
             {
                 return Tasks[0];
+            }
+            catch(Exception e) 
+            {
+                MessageBox.Show("no tasks");
             }
             return null;
         }
@@ -57,6 +64,17 @@ namespace Launcher_WPF
             {
                 CurrentTask = GetTask();
                 fileRequest.GetFile("PlaceHoler", CurrentTask, path);
+            } else
+            {
+                InvokeEndQueue();
+            }
+        }
+
+        private void InvokeEndQueue()
+        {
+            if (EndQueue != null)
+            {
+                EndQueue(path);
             }
         }
     }

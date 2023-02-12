@@ -98,8 +98,13 @@ namespace Launcher_WPF
                 progressBar.Visibility = Visibility.Visible;
 
                 DownloadQueue queue = new DownloadQueue(new string[]{ instanceName, versionName }, instanceName, GoConn, progress);
-                Launcher(instanceName);
+                queue.EndQueue += Queue_EndQueue;
             }
+        }
+
+        private void Queue_EndQueue(string instanceName)
+        {
+            Launcher(instanceName);
         }
 
         async void Launcher(string instanceName)
