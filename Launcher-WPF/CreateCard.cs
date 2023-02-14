@@ -55,9 +55,9 @@ namespace Launcher_WPF
         {
             currentID = 0;
             Cols = new Colors();
-            var gradientColors = Cols.GetColor();
             for (int i = 0; i < ServersList.GetLength(0); i++)
             {
+                var gradientColors = Cols.GetColor();
                 CreateServerCard(GradientCreator(gradientColors[0], gradientColors[1]),
                     ServersList[i, 0],
                     ServersList[i, 1],

@@ -131,7 +131,7 @@ namespace Launcher_WPF
 
                 var launchOption = new MLaunchOption
                 {
-                    MaximumRamMb = 1024,
+                    MaximumRamMb = 4096,
                     Session = session,
                     ScreenWidth = 1600,
                     ScreenHeight = 900,

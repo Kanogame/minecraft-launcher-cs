@@ -51,7 +51,7 @@ namespace Launcher_WPF
             {
                 return Tasks[0];
             }
-            catch(Exception e) 
+            catch(Exception) 
             {
                 MessageBox.Show("no tasks");
             }
