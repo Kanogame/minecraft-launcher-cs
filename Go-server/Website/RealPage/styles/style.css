@@ -12,6 +12,125 @@ html {
     box-sizing: inherit;
 }
 
+body {
+    margin: 0;
+}
+
+.logo
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-style: normal;
+    font-family: Raleway;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.header
+{
+    height: 70px;
+    background-color: white;
+    width: 1000;
+}
+
+.header-content
+{
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 5px;
+    padding-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tabs
+{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 40px;
+}
+
+.tabs-text
+{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #4F5665;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.tabs-text:after
+{
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--main);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}    
+
+.tabs-text:hover:after
+{
+    transform: scaleX(1);
+    transform-origin: bottom left;    
+}
+
+.sign
+{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 40px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.sign-in
+{
+    color: #0B132A;
+    cursor: pointer;
+}
+
+.sign-in:hover
+{
+    color: #5f5f5f;
+}
+
+.sign-up
+{
+    width: 150px;
+    height: 45px;
+    border: 1px solid var(--main);
+    border-radius: 50px;
+    color: var(--main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.sign-up:hover
+{
+    color: white;
+    background-color: var(--main);
+}
+
 .main {
     width: auto;
     height: 70vh;
@@ -77,6 +196,7 @@ html {
     margin-top: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 255, .2);;
     padding: 50px 10px 10px 10px;
+    flex: 1 1 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -111,18 +231,38 @@ html {
     padding-top: 70px;
 }
 
+.newsScroll {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.prev, .next {
+    background-color: lightgray;
+    border-radius: 6px;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 100px;
+}
+
+
 .artic {
     width: 1600px;
     height: 500px;
-    background-color: aqua;
+    background-image: linear-gradient(0.25turn, #C04AEA, #4A74EA);
     display: flex;
     border-radius: 20px;
     padding: 30px;
 }
 
 .artText {
+    color: white;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .artheader {
@@ -132,6 +272,14 @@ html {
 }
 
 .artBottomText {
-    justify-self:center;
-    align-self: center;
+    text-align: left;
+    position: absolute;
+    width: 1000px;
+    left: 0;
+    bottom: 0;
+}
+
+.bottom-header {
+    border-top: 1px solid lightgray;
+    margin-top: 30px;
 }

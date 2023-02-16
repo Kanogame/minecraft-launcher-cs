@@ -1,12 +1,16 @@
 package Launcher
 
 import (
+	"bufio"
 	"fmt"
 	"net"
+	"os"
 )
 
 func HandleServer() {
 	fmt.Println("Launching server...")
+	var dbargs = GetDBArgs()
+	fmt.Println("Server succsesfully launched, serving on port 8081")
 
 	ln, _ := net.Listen("tcp", "localhost:8081")
 
@@ -25,16 +29,32 @@ func HandleServer() {
 		case "getserverlist":
 			getServerList(conn)
 		case "verifyuser":
-			verifyuser(conn)
+			verifyuser(conn, dbargs)
 		case "filecr":
-			filecr(conn)
+			filecr(conn, dbargs)
 		case "decrypt":
-			decrypt(conn)
+			decrypt(conn, dbargs)
 		case "images":
 			imageHandler(conn)
 		case "getmcname":
-			getMCN(conn)
+			getMCN(conn, dbargs)
 		}
 		conn.Close()
 	}
+}
+
+func GetDBArgs() (dbargs string) {
+	file, err := os.Open("./Configs/DataBase.txt")
+	if err != nil {
+		panic(err)
+	}
+
+	scanner := bufio.NewScanner(file)
+
+	var strRead string
+	for scanner.Scan() {
+		strRead = scanner.Text()
+	}
+
+	return strRead
 }

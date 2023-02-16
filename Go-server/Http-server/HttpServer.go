@@ -1,8 +1,10 @@
 package Httpserver
 
 import (
+	"bufio"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/rs/cors"
@@ -51,7 +53,7 @@ func HttpHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
-	var db = FindDB("root", "password")
+	var db = FindDB(GetDBArgs())
 	if postType == "" {
 		PostGetType(r)
 		fmt.Fprintf(w, "success")
@@ -72,4 +74,20 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "FalsePassword")
 		}
 	}
+}
+
+func GetDBArgs() (dbargs string) {
+	file, err := os.Open("./Configs/DataBase.txt")
+	if err != nil {
+		panic(err)
+	}
+
+	scanner := bufio.NewScanner(file)
+
+	var strRead string
+	for scanner.Scan() {
+		strRead = scanner.Text()
+	}
+
+	return strRead
 }

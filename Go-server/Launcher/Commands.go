@@ -100,9 +100,9 @@ func getBackIp(conn net.Conn) {
 	writeInt(conn, portI)
 }
 
-func verifyuser(conn net.Conn) {
+func verifyuser(conn net.Conn, dbargs string) {
 	var data = readUserdata(conn)
-	var db = Httpserver.FindDB("root", "password")
+	var db = Httpserver.FindDB(dbargs)
 	var res = Httpserver.CheckPasswd(db, data)
 	if res {
 		fmt.Println("user logged in")
@@ -114,16 +114,16 @@ func verifyuser(conn net.Conn) {
 	}
 }
 
-func getMCN(conn net.Conn) {
-	var db = Httpserver.FindDB("root", "password")
+func getMCN(conn net.Conn, dbargs string) {
+	var db = Httpserver.FindDB(dbargs)
 	vt, id := verifyToken(conn, db)
 	if vt {
 		writeString(conn, Httpserver.GetMCnickByID(db, id))
 	}
 }
 
-func filecr(conn net.Conn) {
-	var db = Httpserver.FindDB("root", "password")
+func filecr(conn net.Conn, dbargs string) {
+	var db = Httpserver.FindDB(dbargs)
 	vt, id := verifyToken(conn, db)
 	if vt {
 		var name = readString(conn)
@@ -139,8 +139,8 @@ func filecr(conn net.Conn) {
 	}
 }
 
-func decrypt(conn net.Conn) {
-	var db = Httpserver.FindDB("root", "password")
+func decrypt(conn net.Conn, dbargs string) {
+	var db = Httpserver.FindDB(dbargs)
 	var data = readString(conn)
 	var id, encpass = Utils.ParseData(data)
 	var userdata Httpserver.UserLogData

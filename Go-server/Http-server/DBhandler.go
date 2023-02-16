@@ -14,8 +14,8 @@ func errorHandler(err error) {
 	}
 }
 
-func FindDB(user string, password string) *sql.DB {
-	db, err := sql.Open("mysql", user+":"+password+"@tcp(localhost:3306)/userdata")
+func FindDB(data string) *sql.DB {
+	db, err := sql.Open("mysql", data)
 	errorHandler(err)
 
 	fmt.Println("подключено")
