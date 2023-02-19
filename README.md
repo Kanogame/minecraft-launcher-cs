@@ -1,12 +1,17 @@
-# Minecraft server infustructute with custom minecraft launcher
-Complex infustructute builded around Go backend For website hosting and c# file server
+# Custom Minecraft launcher with account sysem written in c#!
+Minecraft launcher infustructute builded around Go backend for website hosting and c# file server
 
 # Launcher 
-C# Launcher WPF launcher 
-(in future)
+C# WPF launcher can communicate with Go Backend, install versions of minecraft and download pre-made modpacks from C# file server.
+![screenshot](https://i.imgur.com/sOTiSmB.png)
 
-Uses CmlLib.Core
-//link
+Uses [CmlLib.Core](https://github.com/CmlLib/CmlLib.Core)
 
 Uses minestat
-//link
+//in future
+
+# GoLang Backend
+launcher through the Go backend communicates with the mySQL database and gets the latest information about available modpacks and servers .Also GoLang Backend hosts a website on which you can register/login to the system, see the status of minecraft servers lists and much more.
+
+# C# file srever
+Just a simple and convenient host for the files needed to run minecraft
