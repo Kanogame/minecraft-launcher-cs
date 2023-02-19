@@ -183,3 +183,13 @@ func imageHandler(conn net.Conn) {
 		conn.Write(buf)
 	}
 }
+
+func imageHash(conn net.Conn) {
+	var imageHash = readString(conn)
+	var realHash = Utils.Sha256("./Configs/images/images.zip")
+	if imageHash == realHash[:len(realHash)-1] {
+		writeInt(conn, 1)
+	} else {
+		writeInt(conn, 0)
+	}
+}

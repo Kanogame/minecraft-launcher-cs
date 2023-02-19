@@ -30,10 +30,7 @@ namespace Launcher_WPF
         goConn GoConn;
         CreateCard createCard;
         FileRequest fileRequest;
-        ScrollDragger ServerListDragger;
-        ScrollDragger ImageDragger;
 
-        bool connectionSuccesful = true;
         private int loginCnt = 0;
 
         public MainWindow()
@@ -43,8 +40,8 @@ namespace Launcher_WPF
             fileRequest = new FileRequest(GoConn, progress);
             fileRequest.DownloadCompleted += FileRequest_DownloadCompleted;
             createCard = new CreateCard(ServerList, ServersCol, Images, Text);
-            ServerListDragger = new ScrollDragger(ServerList, ScrollServerList, true);
-            ImageDragger = new ScrollDragger(Images, ScrollImages, false);
+            ScrollDragger ServerListDragger = new ScrollDragger(ServerList, ScrollServerList, true);
+            ScrollDragger ImageDragger = new ScrollDragger(Images, ScrollImages, false);
             try
             {
                 Initialize();
@@ -52,7 +49,6 @@ namespace Launcher_WPF
             catch (Exception)
             {
                 createCard.CreateServerCard(new LinearGradientBrush(Color.FromRgb(39, 37, 55), Color.FromRgb(39, 37, 55), 0), "Error Occured", "", "", "Server is currently not anvalible", 0);
-                connectionSuccesful = false;
                 InputBox.Visibility = Visibility.Collapsed;
             }
         }
@@ -69,7 +65,16 @@ namespace Launcher_WPF
             if (fileRequest.ReadUserData() && fileRequest.SendUserData())
             {
                 InputBox.Visibility = Visibility.Collapsed;
-                //fileRequest.GetImages();
+                try
+                {
+                    if (!fileRequest.CheckImages())
+                    {
+                        fileRequest.GetImages();
+                    }
+                } catch (Exception) 
+                {
+                    fileRequest.GetImages();
+                }
                 LoadServerList();
             }
         }

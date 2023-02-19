@@ -38,6 +38,8 @@ func HandleServer() {
 			imageHandler(conn)
 		case "getmcname":
 			getMCN(conn, dbargs)
+		case "imageshash":
+			imageHash(conn)
 		}
 		conn.Close()
 	}

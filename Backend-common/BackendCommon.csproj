@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FIleOperations.cs" />
     <Compile Include="goConn.cs" />
     <Compile Include="ProduserConsumerQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

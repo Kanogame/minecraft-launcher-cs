@@ -1,4 +1,5 @@
-﻿using BackendCommon;
+﻿using Backend_common;
+using BackendCommon;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,11 +25,13 @@ namespace BackendCommon
         private string tokenPWD;
 
         private NetworkStream goStream;
+        private FIleOperations fileOperation;
 
         public goConn(string ip, int port)
         {
             this.ip = ip;
             this.port = port;
+            fileOperation = new FIleOperations();
         }
 
         private NetworkStream initConnection()
@@ -43,6 +46,7 @@ namespace BackendCommon
             goStream.writeString("getbackip");
             var bip = goStream.readString();
             var bport = goStream.readInt();
+            goStream.Close();
             return new TcpClient(bip, bport);
         }
 
@@ -60,6 +64,7 @@ namespace BackendCommon
                     servers[i, j] = goStream.readString();
                 }
             }
+            goStream.Close();
             return servers;
         }
 
@@ -73,10 +78,12 @@ namespace BackendCommon
             {
                 token = goStream.readString(); //yes
                 tokenPWD = goStream.readString(); //yes
+                goStream.Close();
                 return true;
             }
             else
             {
+                goStream.Close();
                 return false;
             }
         }
@@ -84,7 +91,8 @@ namespace BackendCommon
         private bool VerifyToken(string token, string tokenPWD, NetworkStream goStream)
         {
             goStream.writeString(token);
-            goStream.writeString(GetHash(tokenPWD));
+            goStream.writeString(fileOperation.GetHash(tokenPWD));
+            goStream.Close();
             return goStream.readInt() == 1;
         }
 
@@ -103,6 +111,7 @@ namespace BackendCommon
                 };
             }
             MessageBox.Show("сессия устарела");
+            goStream.Close();
             return null;
         }
 
@@ -115,6 +124,7 @@ namespace BackendCommon
                 return goStream.readString();
             }
             MessageBox.Show("сессия устарела");
+            goStream.Close();
             return null;
         }
 
@@ -127,39 +137,41 @@ namespace BackendCommon
             {
                 token = goStream.readString();
                 tokenPWD = goStream.readString();
+                goStream.Close();
                 return true;
             }
+            goStream.Close();
             return false;
-        }
-
-        private string GetHash(string value)
-        {
-            var hash = new SHA1Managed().ComputeHash(Encoding.UTF8.GetBytes(value));
-            return string.Concat(hash.Select(b => b.ToString("x2")));
         }
 
         public string ImageHandler(string path)
         {
+            var tempPath = Path.Combine(path, "temp");
             goStream = initConnection();
             goStream.writeString("images");
-            goStream.readFile(path);
-            var UnpackPath = Path.Combine(path, "images");
+            goStream.readFile(tempPath);
+            var UnpackPath = Path.Combine(tempPath, "images");
             Directory.CreateDirectory(UnpackPath);
-            UnZip(path, UnpackPath);
+            var hash = fileOperation.Sha256(Path.Combine(tempPath, "images.zip"));
+            fileOperation.UnZip(Path.Combine(tempPath, "images.zip"), UnpackPath);
+            fileOperation.CreateTextFile(Path.Combine(path, "data", "imagesHash.txt"), new string[1] { hash });
+            goStream.Close();
             return UnpackPath;
-
         }
-        private void UnZip(string tempPath ,string UnpackPath)
+
+        public bool VeryfyImageHash(string hash)
         {
-            try
+            goStream = initConnection();
+            goStream.writeString("imageshash");
+            goStream.writeString(hash);
+            if (goStream.readInt() == 1)
             {
-                ZipFile.ExtractToDirectory(Path.Combine(tempPath, "images.zip"), UnpackPath);
+                goStream.Close();
+                return true;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("при распаковке что-то пошло не так, " + ex.Message);
-            }
-        }
+            goStream.Close();
+            return false;
 
+        }
     }
 }

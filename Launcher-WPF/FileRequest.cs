@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Diagnostics;
+using Backend_common;
 
 namespace Launcher_WPF
 {
@@ -24,6 +25,7 @@ namespace Launcher_WPF
         string instanceName = "";
         string pathName = "";
 
+        FIleOperations fileOperation;
         goConn GoConn;
         Crypt cr;
         System.Windows.Controls.ProgressBar pb;
@@ -32,6 +34,7 @@ namespace Launcher_WPF
 
         public FileRequest(goConn GoConn, System.Windows.Controls.ProgressBar pb)
         {
+            fileOperation = new FIleOperations();
             this.GoConn = GoConn;
             this.pb = pb;
             cr = new Crypt();
@@ -78,7 +81,17 @@ namespace Launcher_WPF
                 dir.Delete(true);
             }
 
-            var imagePath = GoConn.ImageHandler(tempPath);
+            GoConn.ImageHandler(defPath);
+        }
+
+        public bool CheckImages()
+        {
+            string imagehash;
+            using (StreamReader sr = new StreamReader(Path.Combine(defPath, "data", "imagesHash.txt")))
+            {
+                imagehash = sr.ReadLine();
+            }
+            return GoConn.VeryfyImageHash(imagehash);
         }
 
         public bool SendUserData()

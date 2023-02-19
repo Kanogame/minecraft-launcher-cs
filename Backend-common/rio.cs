@@ -92,9 +92,7 @@ namespace BackendCommon
         public static void readFile(this NetworkStream stream, string path)
         {
             var len = stream.readLong();
-            MessageBox.Show(len.ToString());
             string name = stream.readString();
-            MessageBox.Show(name);
             using (Stream f = File.OpenWrite(Path.Combine(path, name)))
             {
                 while (len > 0)
