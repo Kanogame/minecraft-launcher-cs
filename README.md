@@ -1,4 +1,4 @@
-# Custom Minecraft launcher with account sysem written in c#!
+# Custom Minecraft launcher with account system written in c#!
 Minecraft launcher infustructute builded around Go backend for website hosting and c# file server
 
 # Launcher 
